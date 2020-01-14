@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thesis.dao.UserDao">
+    <insert id="addUser" parameterType="com.thesis.entity.User" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO tb_user(
+          account,password,gender,email,phone,create_time,department_id,login_times,
+        ) VALUES (
+          #{account},#{password},#{gender},#{email},#{phone},#{createTime},#{departmentId},#{loginTimes},#{status}
+        )
+    </insert>
+    <select id="getUserById" resultType="com.thesis.entity.User">
+        SELECT * FROM tb_user WHERE id=#{userId}
+    </select>
+</mapper>
