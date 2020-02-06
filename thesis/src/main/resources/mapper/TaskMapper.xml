@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thesis.dao.TaskDao">
+    <insert id="addTask" parameterType="com.thesis.entity.Task" useGeneratedKeys="true" keyProperty="id">
+        insert into tb_task(
+            title, description, begin_time, end_time, results_end_time, type, annex_id, ptask_id
+        ) VALUES (
+            #{title}, #{description}, #{beginTime}, #{endTime}, #{resultsEndTime}, #{type}, #{annexId}, #{ptaskId}
+        )
+    </insert>
+    <select id="getTaskById" resultType="com.thesis.entity.Task">
+        select * from tb_task where id=#{taskId}
+    </select>
+    <delete id="deleteTaskById">
+        delete from tb_task where id=#{taskId}
+    </delete>
+    <update id="updateTask" parameterType="com.thesis.entity.Task">
+        update tb_task set title=#{title}, description=#{description}, begin_time=#{beginTime}, end_time=#{endTime},
+        results_end_time=#{resultsEndTime}, type=#{type}, annex_id=#{annexId}, ptask_id=#{ptaskId},
+    </update>
+    <select id="pageQuery" resultType="com.thesis.entity.Task">
+        SELECT * FROM tb_department
+        <bind name="offset" value="(query.pn-1)*query.ps"></bind>
+        <where>
+            <if test="taskForm.title != null and taskForm.title != ''">
+                AND title LIKE CONCAT ('%',#{taskForm.title},'%')
+            </if>
+            <if test="taskForm.beginTime != null and taskForm.beginTime != ''">
+                AND begin_time = #{taskForm.beginTime}
+            </if>
+            <if test="taskForm.endTime != null and taskForm.endTime != ''">
+                AND end_time = #{taskForm.endTime}
+            </if>
+            <if test="taskForm.resultsEndTime != null and taskForm.resultsEndTime != ''">
+                AND results_end_time = #{taskForm.resultsEndTime}
+            </if>
+            <if test="taskForm.type != null and taskForm.type != ''">
+                AND type = #{taskForm.type}
+            </if>
+        </where>
+        ORDER BY id DESC
+        LIMIT #{offset},#{query.ps}
+    </select>
+    <select id="pageQueryCount" resultType="java.lang.Integer">
+        SELECT * FROM tb_department
+        <where>
+            <if test="taskForm.title != null and taskForm.title != ''">
+                AND title LIKE CONCAT ('%',#{taskForm.title},'%')
+            </if>
+            <if test="taskForm.beginTime != null and taskForm.beginTime != ''">
+                AND begin_time = #{taskForm.beginTime}
+            </if>
+            <if test="taskForm.endTime != null and taskForm.endTime != ''">
+                AND end_time = #{taskForm.endTime}
+            </if>
+            <if test="taskForm.resultsEndTime != null and taskForm.resultsEndTime != ''">
+                AND results_end_time = #{taskForm.resultsEndTime}
+            </if>
+            <if test="taskForm.type != null and taskForm.type != ''">
+                AND type = #{taskForm.type}
+            </if>
+        </where>
+    </select>
+    <select id="getTaskByTitle" resultType="com.thesis.entity.Task">
+        select * from tb_task where title=#{title}
+    </select>
+</mapper>

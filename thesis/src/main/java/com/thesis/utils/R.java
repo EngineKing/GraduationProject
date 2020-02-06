@@ -7,7 +7,7 @@ import java.util.HashMap;
  * @Date 2020/1/13 - 22:04
  */
 public class R extends HashMap<String, Object> {
-    private R(int code, String message) {
+    public R(int code, String message) {
         super.put("code", code);
         super.put("msg", message);
     }
@@ -17,6 +17,10 @@ public class R extends HashMap<String, Object> {
     }
 
     public static R error(int code, String message) {
+        return new R(code, message);
+    }
+
+    public static R error(String message) {
         return R.error(500, message);
     }
 

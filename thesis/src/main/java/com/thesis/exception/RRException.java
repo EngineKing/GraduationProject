@@ -1,4 +1,4 @@
-package com.thesis;
+package com.thesis.exception;
 
 /**
  * @Author LeiPeng

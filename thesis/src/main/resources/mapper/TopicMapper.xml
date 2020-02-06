@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thesis.dao.TopicDao">
+    <insert id="addTopic" parameterType="com.thesis.entity.Topic" useGeneratedKeys="true" keyProperty="id">
+        insert into tb_topic(
+            name, description, optional_number, selected_number, teacher_id, task_id
+        ) VALUES (
+            #{name}, #{description}, #{optionalNumber}, #{selectedNumber}, #{teacherId}, #{taskId}
+        )
+    </insert>
+    <select id="getTopicById" resultType="com.thesis.entity.Topic">
+        select * from tb_topic where id=#{topicId}
+    </select>
+    <delete id="deleteTopicById">
+        delete from tb_topic where id=#{topicId}
+    </delete>
+    <update id="updateTopic" parameterType="com.thesis.entity.Topic">
+        update tb_topic set name=#{name}, description=#{description}, optional_number=#{optionalNumber},
+        selected_number=#{selectedNumber}, teacher_id=#{teacherId}, task_id=#{taskId}
+    </update>
+    <select id="pageQuery" resultType="com.thesis.entity.Topic">
+        SELECT * FROM tb_topic
+        <bind name="offset" value="(query.pn-1)*query.ps"></bind>
+        <where>
+            <if test="topicForm.name != null and topicForm.name != ''">
+                AND name LIKE CONCAT ('%',#{topicForm.name},'%')
+            </if>
+            <if test="topicForm.teacherId != null and topicForm.teacherId != ''">
+                AND teacher_id = #{topicForm.teacherId}
+            </if>
+            <if test="topicForm.taskId != null and topicForm.taskId != ''">
+                AND task_id = #{topicForm.taskId}
+            </if>
+        </where>
+        ORDER BY id DESC
+        LIMIT #{offset},#{query.ps}
+    </select>
+    <select id="pageQueryCount" resultType="java.lang.Integer">
+        SELECT count(*) FROM tb_topic
+        <where>
+            <if test="topicForm.name != null and topicForm.name != ''">
+                AND name LIKE CONCAT ('%',#{topicForm.name},'%')
+            </if>
+            <if test="topicForm.teacherId != null and topicForm.teacherId != ''">
+                AND teacher_id = #{topicForm.teacherId}
+            </if>
+            <if test="topicForm.taskId != null and topicForm.taskId != ''">
+                AND task_id = #{topicForm.taskId}
+            </if>
+        </where>
+    </select>
+    <select id="getTopicByName" resultType="com.thesis.entity.Topic">
+        select * from tb_topic where name=#{topicName}
+    </select>
+</mapper>

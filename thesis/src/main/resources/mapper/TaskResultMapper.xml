@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thesis.dao.TaskResultDao">
+    <insert id="addTaskResult" parameterType="com.thesis.entity.TaskResult" useGeneratedKeys="true" keyProperty="id">
+        insert into tb_task_result(
+            title, description, submit_time, is_audit_passed, audit_opinion,
+            is_result_submit, result, repeat_rate, annex_id, student_id, teacher_id, task_id
+        )values(
+            #{title}, #{description}, #{submitTime}, #{isAuditPassed}, #{auditOpinion},
+            #{isResultSubmit}, #{result}, #{repeatRate}, #{annexId}, #{studentId}, #{teacherId}, #{taskId}
+        )
+    </insert>
+    <select id="getTaskResultById" resultType="com.thesis.entity.TaskResult">
+        select * from tb_task_result where id=#{taskResultId}
+    </select>
+    <delete id="deleteTaskResultById">
+        delete from tb_task_result where id=#{taskResultId}
+    </delete>
+    <update id="updateTaskResult" parameterType="com.thesis.entity.TaskResult">
+        update tb_task_result set title=#{title}, description=#{description}, submit_time=#{submitTime}, is_audit_passed=#{isAuditPassed}, audit_opinion=#{auditOpinion},
+        is_result_submit=#{isResultSubmit}, result=#{result}, repeat_rate=#{repeatRate}, annex_id=#{annexId}, student_id=#{studentId}, teacher_id=#{teacherId}, task_id=#{taskId}
+    </update>
+    <select id="pageQuery" resultType="com.thesis.entity.TaskResult">
+        SELECT * FROM tb_task_result
+        <bind name="offset" value="(query.pn-1)*query.ps"></bind>
+        <where>
+            <if test="taskResultForm.title != null and taskResultForm.title != ''">
+                AND title LIKE CONCAT ('%',#{taskResultForm.title},'%')
+            </if>
+            <if test="taskResultForm.isAuditPassed != null and taskResultForm.isAuditPassed != ''">
+                AND is_audit_passed = #{taskResultForm.isAuditPassed}
+            </if>
+            <if test="taskResultForm.isResultSubmit != null and taskResultForm.isResultSubmit != ''">
+                AND is_result_submit = #{taskResultForm.isResultSubmit}
+            </if>
+            <if test="taskResultForm.result != null and taskResultForm.result != ''">
+                AND result = #{taskResultForm.result}
+            </if>
+            <if test="taskResultForm.studentId != null and taskResultForm.studentId != ''">
+                AND student_id = #{taskResultForm.studentId}
+            </if>
+            <if test="taskResultForm.teacherId != null and taskResultForm.teacherId != ''">
+                AND teacher_id = #{taskResultForm.teacherId}
+            </if>
+            <if test="taskResultForm.taskId != null and taskResultForm.taskId != ''">
+                AND task_id = #{taskResultForm.taskId}
+            </if>
+        </where>
+        ORDER BY id DESC
+        LIMIT #{offset},#{query.ps}
+    </select>
+    <select id="pageQueryCount" resultType="java.lang.Integer">
+        SELECT count(*) FROM tb_task_result
+        <where>
+            <if test="taskResultForm.title != null and taskResultForm.title != ''">
+                AND title LIKE CONCAT ('%',#{taskResultForm.title},'%')
+            </if>
+            <if test="taskResultForm.isAuditPassed != null and taskResultForm.isAuditPassed != ''">
+                AND is_audit_passed = #{taskResultForm.isAuditPassed}
+            </if>
+            <if test="taskResultForm.isResultSubmit != null and taskResultForm.isResultSubmit != ''">
+                AND is_result_submit = #{taskResultForm.isResultSubmit}
+            </if>
+            <if test="taskResultForm.result != null and taskResultForm.result != ''">
+                AND result = #{taskResultForm.result}
+            </if>
+            <if test="taskResultForm.studentId != null and taskResultForm.studentId != ''">
+                AND student_id = #{taskResultForm.studentId}
+            </if>
+            <if test="taskResultForm.teacherId != null and taskResultForm.teacherId != ''">
+                AND teacher_id = #{taskResultForm.teacherId}
+            </if>
+            <if test="taskResultForm.taskId != null and taskResultForm.taskId != ''">
+                AND task_id = #{taskResultForm.taskId}
+            </if>
+        </where>
+    </select>
+    <select id="getTaskResultByTitle" resultType="com.thesis.entity.TaskResult">
+        select * from tb_task_result where title=#{taskResultTitle}
+    </select>
+</mapper>

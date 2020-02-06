@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thesis.dao.RoleDao">
+    <!--新增角色信息-->
+    <insert id="addRole" parameterType="com.thesis.entity.Role" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO tb_role(
+          name,description,menu_ids
+        ) VALUES (
+          #{name},#{description},#{menuIds}
+        )
+    </insert>
+    <!--通过部门id获取角色信息-->
+    <select id="getRoleById" resultType="com.thesis.entity.Role">
+        SELECT * FROM tb_role WHERE id=#{roleId}
+    </select>
+    <!--通过部门id删除角色信息-->
+    <delete id="deleteRoleById">
+        DELETE FROM tb_role WHERE id=#{roleId}
+    </delete>
+    <!--通过角色名称查询角色信息-->
+    <select id="getRoleByName" resultType="com.thesis.entity.Role">
+        SELECT * FROM tb_role WHERE name = #{roleName}
+    </select>
+    <!--修改角色信息-->
+    <update id="updateRole" parameterType="com.thesis.entity.Role">
+        UPDATE tb_role SET name=#{name},description=#{description},menu_ids=#{menuIds} WHERE id=#{id}
+    </update>
+    <!--通过查询条件分页查询-->
+    <select id="pageQuery" resultType="com.thesis.entity.Role">
+        SELECT * FROM tb_role
+        <bind name="offset" value="(query.pn-1)*query.ps"></bind>
+        <where>
+            <if test="roleForm.name != null and roleForm.name != ''">
+                AND name LIKE CONCAT ('%',#{roleForm.name},'%')
+            </if>
+        </where>
+        ORDER BY id DESC
+        LIMIT #{offset},#{query.ps}
+    </select>
+
+    <!--查询出满足查询条件的数量-->
+    <select id="pageQueryCount" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM tb_role
+        <where>
+            <if test="roleForm.name != null and roleForm.name != ''">
+                AND name LIKE CONCAT ('%',#{roleForm.name},'%')
+            </if>
+        </where>
+    </select>
+
+    <!--查询全部的角色信息-->
+    <select id="getAllRoles" resultType="com.thesis.entity.Role">
+        SELECT * FROM tb_role
+    </select>
+</mapper>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thesis.dao.MenuDao">
+    <!--查询全部菜单信息-->
+    <select id="getAllMenus" resultType="com.thesis.entity.Menu">
+        SELECT * FROM tb_menu
+    </select>
+    <!--新增菜单-->
+    <insert id="addMenu" parameterType="com.thesis.entity.Menu" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO tb_menu(
+          name,pid,url,permission,order_no,type,remark,status
+        ) VALUES (
+          #{name},#{pid},#{url},#{permission},#{order_no},#{type},#{remark},#{status}
+        )
+    </insert>
+    <!--通过菜单id删除菜单信息-->
+    <delete id="deleteMenuById">
+        DELETE FROM tb_menu WHERE id=#{menuId}
+    </delete>
+    <!--通过菜单id查询菜单信息-->
+    <select id="getMenuById" resultType="com.thesis.entity.Menu">
+        SELECT * FROM tb_menu WHERE id=#{menuId}
+    </select>
+    <!--更新菜单-->
+    <update id="updateMenu" parameterType="com.thesis.entity.Menu">
+        UPDATE tb_menu SET name=#{name},pid=#{pid},url=#{url},permission=#{permission},order_no=#{orderNo},
+        type=#{type},remark=#{remark},status=#{status} WHERE id=#{id}
+    </update>
+    <!--通过查询条件分页查询-->
+    <select id="pageQuery" resultType="com.thesis.entity.Menu">
+        SELECT * FROM tb_menu
+        <bind name="offset" value="(query.pn-1)*query.ps"></bind>
+        <where>
+            <if test="menuForm.name != null and menuForm.name != ''">
+                AND name LIKE CONCAT ('%',#{menuForm.name},'%')
+            </if>
+            <if test="menuForm.pid != null and menuForm.pid != ''">
+                AND pid = #{menuForm.pid}
+            </if>
+            <if test="menuForm.type != null and menuForm.type != ''">
+                AND type = #{menuForm.type}
+            </if>
+            <if test="menuForm.status != null and menuForm.status != ''">
+                AND status = #{menuForm.status}
+            </if>
+        </where>
+        ORDER BY id DESC
+        LIMIT #{offset},#{query.ps}
+    </select>
+    <!--查询出满足查询条件的数量-->
+    <select id="pageQueryCount" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM tb_menu
+        <where>
+            <if test="menuForm.name != null and menuForm.name != ''">
+                AND name LIKE CONCAT ('%',#{menuForm.name},'%')
+            </if>
+            <if test="menuForm.pid != null and menuForm.pid != ''">
+                AND pid = #{menuForm.pid}
+            </if>
+            <if test="menuForm.type != null and menuForm.type != ''">
+                AND type = #{menuForm.type}
+            </if>
+            <if test="menuForm.status != null and menuForm.status != ''">
+                AND status = #{menuForm.status}
+            </if>
+        </where>
+    </select>
+</mapper>

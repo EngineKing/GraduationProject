@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thesis.dao.TeachingClassDao">
+    <!--新增班级-->
+    <insert id="addTeachingClass" parameterType="com.thesis.entity.TeachingClass" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO tb_class(
+          name, grade_id, subject_id, department_id
+        ) VALUES(
+          #{name}, #{gradeId}, #{subjectId}, #{departmentId}
+        )
+    </insert>
+    <!--通过班级id获取班级信息-->
+    <select id="getTeachingClassById" resultType="com.thesis.entity.TeachingClass">
+        SELECT * FROM tb_class WHERE id=#{teachingClassId}
+    </select>
+    <!--通过班级id删除班级-->
+    <delete id="deleteTeachingClassById">
+        DELETE FROM tb_class WHERE id=#{teachingClassId}
+    </delete>
+    <!--更新班级信息-->
+    <update id="updateTeachingClass" parameterType="com.thesis.entity.TeachingClass">
+        UPDATE tb_class SET name=#{name},grade_id=#{gradeId},subject_id=#{subjectId},department_id=#{departmentId} where id=#{id}
+    </update>
+    <!--分页查询-->
+    <select id="pageQuery" resultType="com.thesis.entity.TeachingClass">
+        SELECT * FROM tb_class
+        <bind name="offset" value="(query.pn-1)*query.ps"></bind>
+        <where>
+            <if test="teachingClassForm.name != null and teachingClassForm.name != ''">
+                AND name LIKE CONCAT ('%',#{teachingClassForm.name},'%')
+            </if>
+            <if test="teachingClassForm.gradeId != null and teachingClassForm.gradeId != ''">
+                AND grade_id = #{teachingClassForm.gradeId}
+            </if>
+            <if test="teachingClassForm.subjectId != null and teachingClassForm.subjectId != ''">
+                AND subject_id = #{teachingClassForm.subjectId}
+            </if>
+            <if test="teachingClassForm.departmentId != null and teachingClassForm.departmentId != ''">
+                AND department_id = #{teachingClassForm.departmentId}
+            </if>
+        </where>
+        ORDER BY id DESC
+        LIMIT #{offset},#{query.ps}
+    </select>
+    <!--查询满足条件的总数-->
+    <select id="pageQueryCount" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM tb_class
+        <bind name="offset" value="(query.pn-1)*query.ps"></bind>
+        <where>
+            <if test="teachingClassForm.name != null and teachingClassForm.name != ''">
+                AND name LIKE CONCAT ('%',#{teachingClassForm.name},'%')
+            </if>
+            <if test="teachingClassForm.gradeId != null and teachingClassForm.gradeId != ''">
+                AND grade_id = #{teachingClassForm.gradeId}
+            </if>
+            <if test="teachingClassForm.subjectId != null and teachingClassForm.subjectId != ''">
+                AND subject_id = #{teachingClassForm.subjectId}
+            </if>
+            <if test="teachingClassForm.departmentId != null and teachingClassForm.departmentId != ''">
+                AND department_id = #{teachingClassForm.departmentId}
+            </if>
+        </where>
+    </select>
+    <!--通过班级名称查询-->
+    <select id="getTeachingClassByName" resultType="com.thesis.entity.TeachingClass">
+        SELECT * FROM tb_class WHERE name=#{teachingClassName}
+    </select>
+</mapper>

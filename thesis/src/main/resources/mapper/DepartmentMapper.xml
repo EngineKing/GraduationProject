@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thesis.dao.DepartmentDao">
+    <!--通过部门id获取部门信息-->
+    <select id="getDepartmentById" resultType="com.thesis.entity.Department">
+        SELECT * FROM tb_department WHERE id=#{departmentId}
+    </select>
+
+    <!--新增部门信息-->
+    <insert id="addDepartment" parameterType="com.thesis.entity.Department" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO tb_department(
+          name,pid,description
+        ) VALUES (
+          #{name},#{pid},#{description}
+        )
+    </insert>
+
+    <!--通过部门id删除部门信息-->
+    <delete id="deleteDepartmentById">
+        DELETE FROM tb_department WHERE id=#{departmentId}
+    </delete>
+
+    <!--修改部门信息-->
+    <update id="updateDepartment" parameterType="com.thesis.entity.Department">
+        UPDATE tb_department SET name=#{name},pid=#{pid},description=#{description} WHERE id=#{id}
+    </update>
+
+    <!--通过查询条件分页查询-->
+    <select id="pageQuery" resultType="com.thesis.entity.Department">
+        SELECT * FROM tb_department
+        <bind name="offset" value="(query.pn-1)*query.ps"></bind>
+        <where>
+            <if test="departmentForm.name != null and departmentForm.name != ''">
+                AND name LIKE CONCAT ('%',#{departmentForm.name},'%')
+            </if>
+            <if test="departmentForm.pid != null and departmentForm.pid != ''">
+                AND pid = #{departmentForm.pid}
+            </if>
+        </where>
+        ORDER BY id DESC
+        LIMIT #{offset},#{query.ps}
+    </select>
+
+    <!--查询出满足查询条件的数量-->
+    <select id="pageQueryCount" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM tb_department
+        <where>
+            <if test="departmentForm.name != null and departmentForm.name != ''">
+                AND name LIKE CONCAT ('%',#{departmentForm.name},'%')
+            </if>
+            <if test="departmentForm.pid != null and departmentForm.pid != ''">
+                AND pid = #{departmentForm.pid}
+            </if>
+        </where>
+    </select>
+
+    <!--通过部门名称查询部门信息-->
+    <select id="getDepartmentByName" resultType="com.thesis.entity.Department">
+        SELECT * FROM tb_department WHERE name = #{departmentName}
+    </select>
+</mapper>

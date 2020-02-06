@@ -1,6 +1,6 @@
 package com.thesis.validator;
 
-import com.thesis.RRException;
+import com.thesis.exception.RRException;
 import org.apache.commons.lang3.StringUtils;
 
 /**

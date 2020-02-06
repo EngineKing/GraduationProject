@@ -3,12 +3,65 @@
 <mapper namespace="com.thesis.dao.UserDao">
     <insert id="addUser" parameterType="com.thesis.entity.User" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO tb_user(
-          account,password,gender,email,phone,create_time,department_id,login_times,
+          account,password,gender,email,phone,create_time,department_id,login_times,status
         ) VALUES (
           #{account},#{password},#{gender},#{email},#{phone},#{createTime},#{departmentId},#{loginTimes},#{status}
         )
     </insert>
     <select id="getUserById" resultType="com.thesis.entity.User">
         SELECT * FROM tb_user WHERE id=#{userId}
+    </select>
+    <select id="getUsersByDepartmentId" resultType="com.thesis.entity.User">
+        SELECT * FROM tb_user WHERE department_id=#{departmentId}
+    </select>
+    <select id="getUsersByRoleId" resultType="com.thesis.entity.User">
+        SELECT tb_user.* FROM tb_user, tb_user_role WHERE tb_user_role.user_id=tb_user.id
+    </select>
+    <select id="getUserByAccount" resultType="com.thesis.entity.User">
+        SELECT * FROM tb_user WHERE tb_user.account=#{account}
+    </select>
+    <delete id="deleteUserById">
+        DELETE FROM tb_user WHERE id=#{userId}
+    </delete>
+    <update id="updateUser" parameterType="com.thesis.entity.User">
+        UPDATE tb_user SET account=#{account},gender=#{gender},email=#{email},email=#{email},
+        phone=#{phone},create_time=#{createTime},department_id=#{departmentId},login_times=#{loginTimes},status=#{status}
+        WHERE id=#{id}
+    </update>
+    <select id="getRoleIdsByUserId" resultType="java.lang.Integer">
+        SELECT role_id FROM tb_user_role WHERE user_id=#{userId}
+    </select>
+    <select id="pageQuery" resultType="com.thesis.entity.User">
+        SELECT * FROM tb_user
+        <bind name="offset" value="(query.pn-1)*query.ps"></bind>
+        <where>
+            <if test="userForm.account != null and userForm.account != ''">
+                AND account LIKE CONCAT ('%',#{userForm.account},'%')
+            </if>
+            <if test="userForm.gender != null and userForm.gender != ''">
+                AND gender=#{userForm.gender}
+            </if>
+            <if test="userForm.departmentId != null and userForm.departmentId != ''">
+                AND department_id=#{userForm.departmentId}
+            </if>
+        </where>
+        ORDER BY id DESC
+        LIMIT #{offset},#{query.ps}
+    </select>
+
+    <!--查询出满足查询条件的数量-->
+    <select id="pageQueryCount" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM tb_user
+        <where>
+            <if test="userForm.account != null and userForm.account != ''">
+                AND account LIKE CONCAT ('%',#{userForm.account},'%')
+            </if>
+            <if test="userForm.gender != null and userForm.gender != ''">
+                AND gender=#{userForm.gender}
+            </if>
+            <if test="userForm.departmentId != null and userForm.departmentId != ''">
+                AND department_id=#{userForm.departmentId}
+            </if>
+        </where>
     </select>
 </mapper>

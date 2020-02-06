@@ -5,22 +5,22 @@ package com.thesis.entity;
  * @Date 2020/1/13 - 21:57
  */
 public class User {
-    private int id;
+    private Integer id;
     private String account;
     private String password;
-    private int gender;
+    private Integer gender;
     private String email;
     private String phone;
-    private int createTime;
-    private int departmentId;
-    private int loginTimes;
-    private int status;
+    private Long createTime;
+    private Integer departmentId;
+    private Integer loginTimes;
+    private Integer status;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -40,11 +40,11 @@ public class User {
         this.password = password;
     }
 
-    public int getGender() {
+    public Integer getGender() {
         return gender;
     }
 
-    public void setGender(int gender) {
+    public void setGender(Integer gender) {
         this.gender = gender;
     }
 
@@ -64,35 +64,35 @@ public class User {
         this.phone = phone;
     }
 
-    public int getCreateTime() {
+    public Long getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(int createTime) {
+    public void setCreateTime(Long createTime) {
         this.createTime = createTime;
     }
 
-    public int getDepartmentId() {
+    public Integer getDepartmentId() {
         return departmentId;
     }
 
-    public void setDepartmentId(int departmentId) {
+    public void setDepartmentId(Integer departmentId) {
         this.departmentId = departmentId;
     }
 
-    public int getLoginTimes() {
+    public Integer getLoginTimes() {
         return loginTimes;
     }
 
-    public void setLoginTimes(int loginTimes) {
+    public void setLoginTimes(Integer loginTimes) {
         this.loginTimes = loginTimes;
     }
 
-    public int getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 }

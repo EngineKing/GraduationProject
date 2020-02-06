@@ -1,6 +1,6 @@
 package com.thesis.validator;
 
-import com.thesis.RRException;
+import com.thesis.exception.RRException;
 import org.hibernate.validator.HibernateValidator;
 
 import javax.validation.ConstraintViolation;
