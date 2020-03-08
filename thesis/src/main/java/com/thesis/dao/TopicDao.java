@@ -12,17 +12,17 @@ import java.util.List;
  * @Date 2020/1/25 - 22:19
  */
 public interface TopicDao {
-    void addTopic(Topic topic);
+    void add(Topic topic);
 
-    Topic getTopicById(@Param("topicId") Integer id);
+    Topic get(@Param("topicId") Integer id);
 
-    void deleteTopicById(@Param("topicId") Integer id);
+    void delete(@Param("topicId") Integer id);
 
-    void updateTopic(Topic topic);
+    void update(Topic topic);
 
     List<Topic> pageQuery(@Param("topicForm") TopicForm topicForm, @Param("query") Query query);
 
     int pageQueryCount(@Param("topicForm") TopicForm topicForm, @Param("query") Query query);
 
-    Topic getTopicByName(@Param("topicName") String name);
+    Topic getByName(@Param("topicName") String name);
 }

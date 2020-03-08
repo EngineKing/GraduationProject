@@ -12,17 +12,27 @@ import java.util.List;
  * @Date 2020/1/28 - 14:17
  */
 public interface TaskResultDao {
-    void addTaskResult(TaskResult taskResult);
+    void add(TaskResult taskResult);
 
-    TaskResult getTaskResultById(@Param("taskResultId") Integer id);
+    TaskResult get(@Param("taskResultId") Integer id);
 
-    void deleteTaskResultById(@Param("taskResultId") Integer id);
+    void delete(@Param("taskResultId") Integer id);
 
-    void updateTaskResult(TaskResult taskResult);
+    void update(TaskResult taskResult);
 
     List<TaskResult> pageQuery(@Param("taskResultForm") TaskResultForm taskResultForm, @Param("query") Query query);
 
     int pageQueryCount(@Param("taskResultForm") TaskResultForm taskResultForm, @Param("query") Query query);
 
-    TaskResult getTaskResultByTitle(@Param("taskResultTitle") String title);
+    TaskResult getByTitle(@Param("taskResultTitle") String title);
+
+    TaskResult getBySIdAndTId(@Param("studentId") Integer sId, @Param("taskId") Integer tId);
+
+    void updateAnnexIdBySIdAndTId(@Param("annexId") Integer annexId, @Param("studentId")Integer studentId, @Param("taskId")Integer taskId);
+
+    List<TaskResult> getByTaskId(@Param("taskId") Integer taskId);
+
+    void updateResult(@Param("taskResultId") Integer taskResultId, @Param("result") int result);
+
+    List<TaskResult> getListByIds(@Param("taskResultIds") List<Integer> tIds);
 }

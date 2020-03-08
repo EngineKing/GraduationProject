@@ -14,6 +14,7 @@ public class TeachingClassVO {
     private Grade grade;
     private Subject subject;
     private Department department;
+    private Integer status;
 
     public Integer getId() {
         return id;
@@ -53,5 +54,13 @@ public class TeachingClassVO {
 
     public void setDepartment(Department department) {
         this.department = department;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

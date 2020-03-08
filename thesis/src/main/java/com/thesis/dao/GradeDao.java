@@ -12,17 +12,19 @@ import java.util.List;
  * @Date 2020/1/23 - 14:34
  */
 public interface GradeDao {
-    void addGrade(Grade grade);
+    void add(Grade grade);
 
-    Grade getGradeById(@Param("gradeId") Integer id);
+    Grade get(@Param("gradeId") Integer id);
+//
+//    void deleteGradeById(@Param("gradeId") Integer id);
+//
+//    void updateGrade(Grade grade);
+//
+//    List<Grade> pageQuery(@Param("gradeForm") GradeForm gradeForm, @Param("query") Query query);
+//
+//    int pageQueryCount(@Param("gradeForm") GradeForm gradeForm, @Param("query") Query query);
 
-    void deleteGradeById(@Param("gradeId") Integer id);
+    Grade getByName(@Param("gradeName") String name);
 
-    void updateGrade(Grade grade);
-
-    List<Grade> pageQuery(@Param("gradeForm") GradeForm gradeForm, @Param("query") Query query);
-
-    int pageQueryCount(@Param("gradeForm") GradeForm gradeForm, @Param("query") Query query);
-
-    Grade getGradeByName(@Param("gradeForm") String name);
+    List<Grade> getAll();
 }

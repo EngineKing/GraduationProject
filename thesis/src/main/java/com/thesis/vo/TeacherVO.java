@@ -9,16 +9,26 @@ import com.thesis.entity.Subject;
  */
 public class TeacherVO {
     private Integer id;
+    private String account; // 用户账号
     private String number;
     private String name;
     private Integer gender;
     private Integer age;
     private String phone;
     private String email;
-    private String jobTitle;
+    private Integer jobTitle;
     private String introduction;
     private Subject subject;
     private Department department;
+    private Integer status;
+
+    public String getAccount() {
+        return account;
+    }
+
+    public void setAccount(String account) {
+        this.account = account;
+    }
 
     public Integer getId() {
         return id;
@@ -76,11 +86,11 @@ public class TeacherVO {
         this.email = email;
     }
 
-    public String getJobTitle() {
+    public Integer getJobTitle() {
         return jobTitle;
     }
 
-    public void setJobTitle(String jobTitle) {
+    public void setJobTitle(Integer jobTitle) {
         this.jobTitle = jobTitle;
     }
 
@@ -106,5 +116,13 @@ public class TeacherVO {
 
     public void setDepartment(Department department) {
         this.department = department;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

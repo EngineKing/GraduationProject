@@ -1,5 +1,7 @@
 package com.thesis.vo;
 
+import com.thesis.entity.Department;
+
 /**
  * @Author LeiPeng
  * @Date 2020/1/21 - 10:28
@@ -7,12 +9,12 @@ package com.thesis.vo;
 public class UserVO {
     private Integer id;
     private String account;
-    private String gender;
+    private Integer gender;
     private String email;
     private String phone;
-    private String createTime;
-    private String departmentName;
-    private String roleName;
+    private Long createTime;
+    private Long updateTime;
+    private Department department;
     private Integer loginTimes;
     private Integer status;
 
@@ -32,11 +34,11 @@ public class UserVO {
         this.account = account;
     }
 
-    public String getGender() {
+    public Integer getGender() {
         return gender;
     }
 
-    public void setGender(String gender) {
+    public void setGender(Integer gender) {
         this.gender = gender;
     }
 
@@ -56,28 +58,20 @@ public class UserVO {
         this.phone = phone;
     }
 
-    public String getCreateTime() {
+    public Long getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(String createTime) {
+    public void setCreateTime(Long createTime) {
         this.createTime = createTime;
     }
 
-    public String getDepartmentName() {
-        return departmentName;
+    public Department getDepartment() {
+        return department;
     }
 
-    public void setDepartmentName(String departmentName) {
-        this.departmentName = departmentName;
-    }
-
-    public String getRoleName() {
-        return roleName;
-    }
-
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 
     public Integer getLoginTimes() {
@@ -96,19 +90,11 @@ public class UserVO {
         this.status = status;
     }
 
-    @Override
-    public String toString() {
-        return "UserVO{" +
-                "id=" + id +
-                ", account='" + account + '\'' +
-                ", gender='" + gender + '\'' +
-                ", email='" + email + '\'' +
-                ", phone='" + phone + '\'' +
-                ", createTime=" + createTime +
-                ", departmentName='" + departmentName + '\'' +
-                ", roleName='" + roleName + '\'' +
-                ", loginTimes=" + loginTimes +
-                ", status=" + status +
-                '}';
+    public Long getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Long updateTime) {
+        this.updateTime = updateTime;
     }
 }

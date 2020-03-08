@@ -14,17 +14,19 @@ import java.util.List;
  * @Date 2020/1/27 - 17:24
  */
 public interface ExpertGroupDao {
-    void addExpertGroup(ExpertGroup expertGroup);
+    void add(ExpertGroup expertGroup);
 
-    ExpertGroup getExpertGroupById(@Param("departmentId") Integer id);
+    ExpertGroup get(@Param("departmentId") Integer id);
 
-    void deleteExpertGroupById(@Param("departmentId") Integer id);
+    void delete(@Param("departmentId") Integer id);
 
-    void updateExpertGroup(ExpertGroup expertGroup);
+    void update(ExpertGroup expertGroup);
 
     List<ExpertGroup> pageQuery(@Param("expertGroupForm") ExpertGroupForm expertGroupForm, @Param("query") Query query);
 
     int pageQueryCount(@Param("expertGroupForm") ExpertGroupForm expertGroupForm, @Param("query") Query query);
 
-    ExpertGroup getExpertGroupByName(@Param("expertGroupName") String name);
+    ExpertGroup getByName(@Param("expertGroupName") String name);
+
+    List<Integer> getLeaderIds();
 }

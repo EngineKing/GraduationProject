@@ -12,17 +12,19 @@ import java.util.List;
  * @Date 2020/1/23 - 9:20
  */
 public interface SubjectDao {
-    void addSubject(Subject subject);
+    void add(Subject subject);
 
-    Subject getSubjectById(@Param("subjectId") Integer id);
+    Subject get(@Param("subjectId") Integer id);
 
-    void deleteSubjectById(@Param("subjectId") Integer id);
+    void delete(@Param("subjectId") Integer id);
 
-    void updateSubject(Subject subject);
+    void update(Subject subject);
 
     List<Subject> pageQuery(@Param("subjectForm") SubjectForm subjectForm, @Param("query") Query query);
 
     int pageQueryCount(@Param("subjectForm") SubjectForm subjectForm, @Param("query") Query query);
 
-    Subject getSubjectByName(@Param("subjectName") String name);
+    Subject getByName(@Param("subjectName") String name);
+
+    List<Subject> getAll();
 }

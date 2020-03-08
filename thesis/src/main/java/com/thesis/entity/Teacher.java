@@ -1,9 +1,12 @@
 package com.thesis.entity;
 
+import lombok.ToString;
+
 /**
  * @Author LeiPeng
  * @Date 2020/1/26 - 10:55
  */
+@ToString
 public class Teacher {
     private Integer id;
     private String number;
@@ -12,11 +15,36 @@ public class Teacher {
     private Integer age;
     private String phone;
     private String email;
-    private String jobTitle;
+    private Integer jobTitle;
     private String introduction;
     private Integer subjectId;
     private Integer departmentId;
     private Integer userId;
+    private Integer status;
+
+    public Teacher() {
+    }
+
+    public Teacher(String name) {
+        this.name = name;
+    }
+
+    public Teacher(String number, String name, Integer gender, Integer age, String phone, String email,
+                   Integer jobTitle, String introduction, Integer subjectId, Integer departmentId, Integer userId,
+                   Integer status) {
+        this.number = number;
+        this.name = name;
+        this.gender = gender;
+        this.age = age;
+        this.phone = phone;
+        this.email = email;
+        this.jobTitle = jobTitle;
+        this.introduction = introduction;
+        this.subjectId = subjectId;
+        this.departmentId = departmentId;
+        this.userId = userId;
+        this.status = status;
+    }
 
     public Integer getId() {
         return id;
@@ -74,11 +102,11 @@ public class Teacher {
         this.email = email;
     }
 
-    public String getJobTitle() {
+    public Integer getJobTitle() {
         return jobTitle;
     }
 
-    public void setJobTitle(String jobTitle) {
+    public void setJobTitle(Integer jobTitle) {
         this.jobTitle = jobTitle;
     }
 
@@ -112,5 +140,13 @@ public class Teacher {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

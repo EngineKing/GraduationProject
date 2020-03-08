@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.thesis.dao.RoleDao">
     <!--新增角色信息-->
-    <insert id="addRole" parameterType="com.thesis.entity.Role" useGeneratedKeys="true" keyProperty="id">
+    <insert id="add" parameterType="com.thesis.entity.Role" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO tb_role(
           name,description,menu_ids
         ) VALUES (
@@ -10,19 +10,19 @@
         )
     </insert>
     <!--通过部门id获取角色信息-->
-    <select id="getRoleById" resultType="com.thesis.entity.Role">
+    <select id="get" resultType="com.thesis.entity.Role">
         SELECT * FROM tb_role WHERE id=#{roleId}
     </select>
     <!--通过部门id删除角色信息-->
-    <delete id="deleteRoleById">
+    <delete id="delete">
         DELETE FROM tb_role WHERE id=#{roleId}
     </delete>
     <!--通过角色名称查询角色信息-->
-    <select id="getRoleByName" resultType="com.thesis.entity.Role">
+    <select id="getByName" resultType="com.thesis.entity.Role">
         SELECT * FROM tb_role WHERE name = #{roleName}
     </select>
     <!--修改角色信息-->
-    <update id="updateRole" parameterType="com.thesis.entity.Role">
+    <update id="update" parameterType="com.thesis.entity.Role">
         UPDATE tb_role SET name=#{name},description=#{description},menu_ids=#{menuIds} WHERE id=#{id}
     </update>
     <!--通过查询条件分页查询-->

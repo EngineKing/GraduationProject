@@ -2,26 +2,26 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.thesis.dao.DepartmentDao">
     <!--通过部门id获取部门信息-->
-    <select id="getDepartmentById" resultType="com.thesis.entity.Department">
+    <select id="get" resultType="com.thesis.entity.Department">
         SELECT * FROM tb_department WHERE id=#{departmentId}
     </select>
 
     <!--新增部门信息-->
-    <insert id="addDepartment" parameterType="com.thesis.entity.Department" useGeneratedKeys="true" keyProperty="id">
+    <insert id="add" parameterType="com.thesis.entity.Department" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO tb_department(
-          name,pid,description
+          name,pid,description,status
         ) VALUES (
-          #{name},#{pid},#{description}
+          #{name},#{pid},#{description},#{status}
         )
     </insert>
 
     <!--通过部门id删除部门信息-->
-    <delete id="deleteDepartmentById">
-        DELETE FROM tb_department WHERE id=#{departmentId}
-    </delete>
+    <update id="delete">
+        update tb_department set status = 1 where id = #{departmentId}
+    </update>
 
     <!--修改部门信息-->
-    <update id="updateDepartment" parameterType="com.thesis.entity.Department">
+    <update id="update" parameterType="com.thesis.entity.Department">
         UPDATE tb_department SET name=#{name},pid=#{pid},description=#{description} WHERE id=#{id}
     </update>
 
@@ -33,9 +33,10 @@
             <if test="departmentForm.name != null and departmentForm.name != ''">
                 AND name LIKE CONCAT ('%',#{departmentForm.name},'%')
             </if>
-            <if test="departmentForm.pid != null and departmentForm.pid != ''">
+            <if test="departmentForm.pid != null">
                 AND pid = #{departmentForm.pid}
             </if>
+            and status = 0
         </where>
         ORDER BY id DESC
         LIMIT #{offset},#{query.ps}
@@ -48,14 +49,19 @@
             <if test="departmentForm.name != null and departmentForm.name != ''">
                 AND name LIKE CONCAT ('%',#{departmentForm.name},'%')
             </if>
-            <if test="departmentForm.pid != null and departmentForm.pid != ''">
+            <if test="departmentForm.pid != null">
                 AND pid = #{departmentForm.pid}
             </if>
+            and status = 0
         </where>
     </select>
 
     <!--通过部门名称查询部门信息-->
-    <select id="getDepartmentByName" resultType="com.thesis.entity.Department">
-        SELECT * FROM tb_department WHERE name = #{departmentName}
+    <select id="getByName" resultType="com.thesis.entity.Department">
+        SELECT * FROM tb_department WHERE name = #{departmentName} and status != 1
+    </select>
+
+    <select id="getAll" resultType="com.thesis.entity.Department">
+        select * from tb_department where status = 0 order by id desc 
     </select>
 </mapper>

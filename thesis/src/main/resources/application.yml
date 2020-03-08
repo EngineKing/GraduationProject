@@ -41,3 +41,6 @@ spring:
         wall:
           config:
             multi-statement-allow: true
+
+base_result_url: "E:\\annex\\result\\"
+base_task_url: "E:\\annex\\task\\"

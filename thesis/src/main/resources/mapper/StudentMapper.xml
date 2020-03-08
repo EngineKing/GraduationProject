@@ -1,29 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.thesis.dao.StudentDao">
-    <insert id="addStudent" parameterType="com.thesis.entity.Student" useGeneratedKeys="true" keyProperty="id">
+    <insert id="add" parameterType="com.thesis.entity.Student" useGeneratedKeys="true" keyProperty="id">
         insert into tb_student(
-            number, name, gender, nation, hometown, id_card_no, type, phone, email, position, enrollment_date,
-            school_system,class_id, grade_id, subject_id, department_id, teacher_id, user_id
+            number, name, gender, id_card_no, type, phone, email, enrollment_date,
+            school_system,class_id, grade_id, subject_id, department_id, teacher_id, user_id, status
          ) VALUES(
-            #{number}, #{name}, #{gender}, #{nation}, #{hometown}, #{idCardNo}, #{type}, #{phone}, #{email}, #{position}, #{enrollmentDate},
-            #{schoolSystem}, #{classId}, #{gradeId},#{subjectId}, #{departmentId}, #{teacherId}, #{userId}
+            #{number}, #{name}, #{gender}, #{idCardNo}, #{type}, #{phone}, #{email}, #{enrollmentDate},
+            #{schoolSystem}, #{classId}, #{gradeId},#{subjectId}, #{departmentId}, #{teacherId}, #{userId}, #{status}
          )
     </insert>
-    <select id="getStudentById" resultType="com.thesis.entity.Student">
-        select * from tb_student where id=#{studentId}
+    <select id="get" resultType="com.thesis.entity.Student">
+        select * from tb_student where id=#{studentId} and status = 0
     </select>
-    <delete id="deleteStudentById">
-        delete from tb_student where id=#{studentId}
-    </delete>
-    <update id="updateStudent" parameterType="com.thesis.entity.Student">
-        update tb_student set number=#{number}, name=#{name}, gender=#{gender}, nation=#{nation}, hometown=#{hometown}, id_card_no=#{idCardNo},
-        type=#{type}, phone=#{phone}, email=#{email}, position=#{position}, enrollment_date=#{enrollmentDate}, school_system=#{schoolSystem},
-        class_id=#{classId}, grade_id=#{gradeId}, subject_id=#{subjectId}, department_id=#{departmentId}, teacher_id=#{teacherId}, user_id=#{userId}
+    <update id="delete">
+        update tb_student set status = 1 where id=#{studentId}
+    </update>
+    <update id="update" parameterType="com.thesis.entity.Student">
+        update tb_student set number=#{number}, name=#{name}, gender=#{gender}, id_card_no=#{idCardNo},
+        type=#{type}, phone=#{phone}, email=#{email}, enrollment_date=#{enrollmentDate}, school_system=#{schoolSystem},
+        class_id=#{classId}, grade_id=#{gradeId}, subject_id=#{subjectId}, department_id=#{departmentId}, teacher_id=#{teacherId},
+        status=#{status}
+        where id=#{id}
     </update>
     <select id="pageQuery" resultType="com.thesis.entity.Student">
         SELECT * FROM tb_student
-        <bind name="offset" value="(query.pn-1)*query.ps"></bind>
+        <if test="query.pn != null and query.ps != null">
+            <bind name="offset" value="(query.pn-1)*query.ps"></bind>
+        </if>
         <where>
             <if test="studentForm.number != null and studentForm.number != ''">
                 AND number LIKE CONCAT ('%',#{studentForm.number},'%')
@@ -31,24 +35,21 @@
             <if test="studentForm.name != null and studentForm.name != ''">
                 AND name LIKE CONCAT ('%',#{studentForm.name},'%')
             </if>
-            <if test="studentForm.gender != null and studentForm.gender != ''">
-                AND gender = #{studentForm.gender}
-            </if>
-            <if test="studentForm.type != null and studentForm.type != ''">
+            <if test="studentForm.type != null">
                 AND type = #{studentForm.type}
             </if>
-            <if test="studentForm.enrollmentDate != null and studentForm.enrollmentDate != ''">
-                AND enrollment_date = #{studentForm.enrollmentDate}
-            </if>
-            <if test="studentForm.classId != null and studentForm.classId != ''">
+            <if test="studentForm.classId != null">
                 AND class_id = #{studentForm.classId}
             </if>
-            <if test="studentForm.teacherId != null and studentForm.teacherId != ''">
-                AND teacher_id = #{studentForm.teacherId}
+            <if test="studentForm.subjectId != null">
+                AND subject_id = #{studentForm.subjectId}
             </if>
+            and status = 0
         </where>
         ORDER BY id DESC
-        LIMIT #{offset},#{query.ps}
+        <if test="offset != null and query.ps != null">
+            LIMIT #{offset},#{query.ps}
+        </if>
     </select>
     <select id="pageQueryCount" resultType="java.lang.Integer">
         SELECT count(*) FROM tb_student
@@ -59,21 +60,33 @@
             <if test="studentForm.name != null and studentForm.name != ''">
                 AND name LIKE CONCAT ('%',#{studentForm.name},'%')
             </if>
-            <if test="studentForm.gender != null and studentForm.gender != ''">
-                AND gender = #{studentForm.gender}
-            </if>
-            <if test="studentForm.type != null and studentForm.type != ''">
+            <if test="studentForm.type != null">
                 AND type = #{studentForm.type}
             </if>
-            <if test="studentForm.enrollmentDate != null and studentForm.enrollmentDate != ''">
-                AND enrollment_date = #{studentForm.enrollmentDate}
-            </if>
-            <if test="studentForm.classId != null and studentForm.classId != ''">
+            <if test="studentForm.classId != null">
                 AND class_id = #{studentForm.classId}
             </if>
-            <if test="studentForm.teacherId != null and studentForm.teacherId != ''">
-                AND teacher_id = #{studentForm.teacherId}
+            <if test="studentForm.subjectId != null">
+                AND subject_id = #{studentForm.subjectId}
             </if>
+            and status = 0
         </where>
+    </select>
+    <select id="getByNumber" resultType="com.thesis.entity.Student">
+        select * from tb_student where number=#{number} and status = 0
+    </select>
+    <select id="getByUserId" resultType="com.thesis.entity.Student">
+        select * from tb_student where user_id=#{userId} and status = 0
+    </select>
+    <select id="getByTeacherId" resultType="com.thesis.entity.Student">
+        select * from tb_student where teacher_id=#{teacherId};
+    </select>
+    <select id="getListByIds" parameterType="java.util.List" resultType="com.thesis.entity.Student">
+        select * from tb_student
+        where
+        id in
+        <foreach collection="studentIds" item="studentId" open="(" close=")" separator=",">
+            #{studentId}
+        </foreach>;
     </select>
 </mapper>

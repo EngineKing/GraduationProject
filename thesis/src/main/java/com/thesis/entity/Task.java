@@ -1,5 +1,10 @@
 package com.thesis.entity;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+
 /**
  * @Author LeiPeng
  * @Date 2020/1/26 - 10:55
@@ -14,6 +19,7 @@ public class Task {
     private Integer type;
     private Integer annexId;
     private Integer pTaskId;
+    private Integer status;
 
     public Integer getId() {
         return id;
@@ -85,5 +91,13 @@ public class Task {
 
     public void setpTaskId(Integer pTaskId) {
         this.pTaskId = pTaskId;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

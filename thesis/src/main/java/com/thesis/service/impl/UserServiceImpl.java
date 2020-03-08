@@ -3,6 +3,7 @@ package com.thesis.service.impl;
 import com.thesis.dao.DepartmentDao;
 import com.thesis.dao.RoleDao;
 import com.thesis.dao.UserDao;
+import com.thesis.dao.UserRoleDao;
 import com.thesis.entity.Department;
 import com.thesis.entity.Role;
 import com.thesis.entity.User;
@@ -33,7 +34,7 @@ public class UserServiceImpl implements com.thesis.service.UserService {
     DepartmentDao departmentDao;
 
     @Autowired
-    RoleDao roleDao;
+    UserRoleDao userRoleDao;
 
     /**
      * 新增用户
@@ -41,10 +42,11 @@ public class UserServiceImpl implements com.thesis.service.UserService {
      * @param user 用户信息
      */
     @Override
-    public void addUser(User user) {
+    public void add(User user) {
         User foundUser = userDao.getUserByAccount(user.getAccount());
         if (foundUser != null) throw new RRException("新增用户失败，该用户账号已存在");
-        userDao.addUser(user);
+        user.setCreateTime(DateUtil.timeStamp());
+        userDao.add(user);
     }
 
     /**
@@ -54,8 +56,8 @@ public class UserServiceImpl implements com.thesis.service.UserService {
      * @return 用户信息
      */
     @Override
-    public User getUserById(Integer id) {
-        return userDao.getUserById(id);
+    public User get(Integer id) {
+        return userDao.get(id);
     }
 
     /**
@@ -64,10 +66,10 @@ public class UserServiceImpl implements com.thesis.service.UserService {
      * @param id 用户id
      */
     @Override
-    public void deleteUserById(Integer id) {
-        User foundUser = userDao.getUserById(id);
+    public void delete(Integer id) {
+        User foundUser = userDao.get(id);
         if (foundUser == null) throw new RRException("删除用户失败，该用户不存在");
-        userDao.deleteUserById(id);
+        userDao.delete(id);
     }
 
     /**
@@ -76,10 +78,10 @@ public class UserServiceImpl implements com.thesis.service.UserService {
      * @param user 用户信息
      */
     @Override
-    public void updateUser(User user) {
+    public void update(User user) {
         User foundUser = userDao.getUserByAccount(user.getAccount());
         if (foundUser != null && foundUser.getId() != user.getId()) throw new RRException("修改用户失败，该用户账号已存在");
-        userDao.updateUser(user);
+        userDao.update(user);
     }
 
     /**
@@ -93,28 +95,17 @@ public class UserServiceImpl implements com.thesis.service.UserService {
     public List<UserVO> pageQuery(UserForm userForm, Query query) {
         List<User> users = userDao.pageQuery(userForm, query);
         List<UserVO> userVOS = new ArrayList<>();
-        List<Role> roles = roleDao.getAllRoles();
-        HashMap<Integer, Role> map = new HashMap<>();
-        for (int i = 0; i < roles.size(); i++) {
-            map.put(roles.get(i).getId(), roles.get(i));
-        }
         for (int i = 0; i < users.size(); i++) {
             UserVO userVO = new UserVO();
             User user = users.get(i);
-            List<Integer> roleIdsToUser = userDao.getRoleIdsByUserId(user.getId());
-            StringBuilder roleName = new StringBuilder();
-            for (int j = 0; j < roleIdsToUser.size() - 1; j++) {
-                roleName.append(roleDao.getRoleById(roleIdsToUser.get(i)).getName()).append(",");
-            }
-            roleName.append(roleDao.getRoleById(roleIdsToUser.get(roleIdsToUser.size() - 1)).getName());
             userVO.setId(user.getId());
             userVO.setAccount(user.getAccount());
-            userVO.setGender(user.getGender() == 0 ? "男" : "女");
+            userVO.setGender(user.getGender());
             userVO.setEmail(user.getEmail());
             userVO.setPhone(user.getPhone());
-            userVO.setCreateTime(DateUtil.timeStamp2Date(user.getCreateTime(), "yyyy-MM-dd HH:mm:ss"));
-            userVO.setDepartmentName(departmentDao.getDepartmentById(user.getDepartmentId()).getName());
-            userVO.setRoleName(roleName.toString());
+            userVO.setCreateTime(user.getCreateTime());
+            userVO.setUpdateTime(user.getUpdateTime());
+            userVO.setDepartment(departmentDao.get(user.getDepartmentId()));
             userVO.setLoginTimes(user.getLoginTimes());
             userVO.setStatus(user.getStatus());
             userVOS.add(userVO);

@@ -2,57 +2,48 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.thesis.dao.GradeDao">
     <!--新增年级-->
-    <insert id="addGrade" parameterType="com.thesis.entity.Grade" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO tb_grade(name, subject_id, department_id) VALUES (#{name},#{subjectId},#{departmentId})
+    <insert id="add" parameterType="com.thesis.entity.Grade" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO tb_grade(name) VALUES (#{name})
     </insert>
     <!--通过年级id查询年级信息-->
-    <select id="getGradeById" resultType="com.thesis.entity.Grade">
+    <select id="get" resultType="com.thesis.entity.Grade">
         SELECT * FROM tb_grade WHERE id=#{gradeId}
     </select>
-    <!--删除年级-->
-    <delete id="deleteGradeById">
-        DELETE FROM tb_grade WHERE id=#{gradeId}
-    </delete>
-    <!--更新年级-->
-    <update id="updateGrade" parameterType="com.thesis.entity.Grade">
-        UPDATE tb_grade SET name=#{name},department_id=#{departmentId},subject_id=#{subjectId} where id=#{id}
-    </update>
-    <!--分页查询-->
-    <select id="pageQuery" resultType="com.thesis.entity.Grade">
-        SELECT * FROM tb_grade
-        <bind name="offset" value="(query.pn-1)*query.ps"></bind>
-        <where>
-            <if test="gradeForm.name != null and gradeForm.name != ''">
-                AND name LIKE CONCAT ('%',#{gradeForm.name},'%')
-            </if>
-            <if test="gradeForm.subjectId != null and gradeForm.subjectId != ''">
-                AND subject_id = #{gradeForm.subjectId}
-            </if>
-            <if test="gradeForm.departmentId != null and gradeForm.departmentId != ''">
-                AND department_id = #{gradeForm.departmentId}
-            </if>
-        </where>
-        ORDER BY id DESC
-        LIMIT #{offset},#{query.ps}
-    </select>
-    <!--查询满足条件的总数-->
-    <select id="pageQueryCount" resultType="java.lang.Integer">
-        SELECT COUNT(*) FROM tb_grade
-        <bind name="offset" value="(query.pn-1)*query.ps"></bind>
-        <where>
-            <if test="gradeForm.name != null and gradeForm.name != ''">
-                AND name LIKE CONCAT ('%',#{gradeForm.name},'%')
-            </if>
-            <if test="gradeForm.subjectId != null and gradeForm.subjectId != ''">
-                AND subject_id = #{gradeForm.subjectId}
-            </if>
-            <if test="gradeForm.departmentId != null and gradeForm.departmentId != ''">
-                AND department_id = #{gradeForm.departmentId}
-            </if>
-        </where>
-    </select>
+<!--    &lt;!&ndash;删除年级&ndash;&gt;-->
+<!--    <delete id="deleteGradeById">-->
+<!--        DELETE FROM tb_grade WHERE id=#{gradeId}-->
+<!--    </delete>-->
+<!--    &lt;!&ndash;更新年级&ndash;&gt;-->
+<!--    <update id="updateGrade" parameterType="com.thesis.entity.Grade">-->
+<!--        UPDATE tb_grade SET name=#{name} where id=#{id}-->
+<!--    </update>-->
+<!--    &lt;!&ndash;分页查询&ndash;&gt;-->
+<!--    <select id="pageQuery" resultType="com.thesis.entity.Grade">-->
+<!--        SELECT * FROM tb_grade-->
+<!--        <bind name="offset" value="(query.pn-1)*query.ps"></bind>-->
+<!--        <where>-->
+<!--            <if test="gradeForm.name != null and gradeForm.name != ''">-->
+<!--                AND name LIKE CONCAT ('%',#{gradeForm.name},'%')-->
+<!--            </if>-->
+<!--        </where>-->
+<!--        ORDER BY id DESC-->
+<!--        LIMIT #{offset},#{query.ps}-->
+<!--    </select>-->
+<!--    &lt;!&ndash;查询满足条件的总数&ndash;&gt;-->
+<!--    <select id="pageQueryCount" resultType="java.lang.Integer">-->
+<!--        SELECT COUNT(*) FROM tb_grade-->
+<!--        <bind name="offset" value="(query.pn-1)*query.ps"></bind>-->
+<!--        <where>-->
+<!--            <if test="gradeForm.name != null and gradeForm.name != ''">-->
+<!--                AND name LIKE CONCAT ('%',#{gradeForm.name},'%')-->
+<!--            </if>-->
+<!--        </where>-->
+<!--    </select>-->
     <!--通过名称查询年级信息-->
-    <select id="getGradeByName" resultType="com.thesis.entity.Grade">
-        SELECT * FROM tb_grade WHERE name=#{name}
+    <select id="getByName" resultType="com.thesis.entity.Grade">
+        SELECT * FROM tb_grade WHERE name=#{gradeName}
+    </select>
+    <select id="getAll" resultType="com.thesis.entity.Grade">
+        select * from tb_grade order by id desc
     </select>
 </mapper>

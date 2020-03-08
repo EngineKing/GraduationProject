@@ -15,6 +15,7 @@ public class TopicVO {
     private Integer selectedNumber;
     private Teacher teacher;
     private Task task;
+    private Integer status;
 
     public Integer getId() {
         return id;
@@ -70,5 +71,13 @@ public class TopicVO {
 
     public void setTask(Task task) {
         this.task = task;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

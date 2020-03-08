@@ -10,6 +10,7 @@ public class TeachingClass {
     private Integer gradeId;
     private Integer subjectId;
     private Integer departmentId;
+    private Integer status;
 
     public Integer getId() {
         return id;
@@ -49,5 +50,13 @@ public class TeachingClass {
 
     public void setDepartmentId(Integer departmentId) {
         this.departmentId = departmentId;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

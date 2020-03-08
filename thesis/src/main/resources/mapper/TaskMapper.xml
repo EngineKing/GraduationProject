@@ -1,67 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.thesis.dao.TaskDao">
-    <insert id="addTask" parameterType="com.thesis.entity.Task" useGeneratedKeys="true" keyProperty="id">
+    <insert id="add" parameterType="com.thesis.entity.Task" useGeneratedKeys="true" keyProperty="id">
         insert into tb_task(
-            title, description, begin_time, end_time, results_end_time, type, annex_id, ptask_id
+            title, description, begin_time, end_time, results_end_time, type, annex_id, ptask_id, status
         ) VALUES (
-            #{title}, #{description}, #{beginTime}, #{endTime}, #{resultsEndTime}, #{type}, #{annexId}, #{ptaskId}
+            #{title}, #{description}, #{beginTime}, #{endTime}, #{resultsEndTime}, #{type}, #{annexId}, #{pTaskId},#{status}
         )
     </insert>
-    <select id="getTaskById" resultType="com.thesis.entity.Task">
-        select * from tb_task where id=#{taskId}
+    <select id="get" resultType="com.thesis.entity.Task">
+        select * from tb_task where id=#{taskId} and status = 0
     </select>
-    <delete id="deleteTaskById">
-        delete from tb_task where id=#{taskId}
-    </delete>
-    <update id="updateTask" parameterType="com.thesis.entity.Task">
+    <update id="delete">
+        update tb_task set status=1 where id=#{taskId}
+    </update>
+    <update id="update" parameterType="com.thesis.entity.Task">
         update tb_task set title=#{title}, description=#{description}, begin_time=#{beginTime}, end_time=#{endTime},
-        results_end_time=#{resultsEndTime}, type=#{type}, annex_id=#{annexId}, ptask_id=#{ptaskId},
+        results_end_time=#{resultsEndTime}, type=#{type}, annex_id=#{annexId}, ptask_id=#{pTaskId},status=#{status}
+        where id=#{id}
     </update>
     <select id="pageQuery" resultType="com.thesis.entity.Task">
-        SELECT * FROM tb_department
+        SELECT * FROM tb_task
         <bind name="offset" value="(query.pn-1)*query.ps"></bind>
         <where>
             <if test="taskForm.title != null and taskForm.title != ''">
                 AND title LIKE CONCAT ('%',#{taskForm.title},'%')
             </if>
-            <if test="taskForm.beginTime != null and taskForm.beginTime != ''">
-                AND begin_time = #{taskForm.beginTime}
-            </if>
-            <if test="taskForm.endTime != null and taskForm.endTime != ''">
-                AND end_time = #{taskForm.endTime}
-            </if>
-            <if test="taskForm.resultsEndTime != null and taskForm.resultsEndTime != ''">
-                AND results_end_time = #{taskForm.resultsEndTime}
-            </if>
-            <if test="taskForm.type != null and taskForm.type != ''">
+            <if test="taskForm.type != null">
                 AND type = #{taskForm.type}
             </if>
+            and status = 0
         </where>
         ORDER BY id DESC
         LIMIT #{offset},#{query.ps}
     </select>
     <select id="pageQueryCount" resultType="java.lang.Integer">
-        SELECT * FROM tb_department
+        SELECT count(*) FROM tb_task
         <where>
             <if test="taskForm.title != null and taskForm.title != ''">
                 AND title LIKE CONCAT ('%',#{taskForm.title},'%')
             </if>
-            <if test="taskForm.beginTime != null and taskForm.beginTime != ''">
-                AND begin_time = #{taskForm.beginTime}
-            </if>
-            <if test="taskForm.endTime != null and taskForm.endTime != ''">
-                AND end_time = #{taskForm.endTime}
-            </if>
-            <if test="taskForm.resultsEndTime != null and taskForm.resultsEndTime != ''">
-                AND results_end_time = #{taskForm.resultsEndTime}
-            </if>
-            <if test="taskForm.type != null and taskForm.type != ''">
+            <if test="taskForm.type != null">
                 AND type = #{taskForm.type}
             </if>
+            and status = 0
         </where>
     </select>
-    <select id="getTaskByTitle" resultType="com.thesis.entity.Task">
-        select * from tb_task where title=#{title}
+    <select id="getByTitle" resultType="com.thesis.entity.Task">
+        select * from tb_task where title=#{taskTitle} and status = 0
     </select>
+    <select id="getAll" resultType="com.thesis.entity.Task">
+        select * from tb_task where status = 0
+    </select>
+    <select id="getAllPTasks" resultType="com.thesis.entity.Task">
+        select * from tb_task where type = 0 and status = 0
+    </select>
+    <update id="updateAnnex">
+        update tb_task set annex_id = #{annexId} where id=#{taskId}
+    </update>
 </mapper>

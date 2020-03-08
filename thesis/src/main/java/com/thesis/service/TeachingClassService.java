@@ -12,14 +12,15 @@ import java.util.List;
  * @Date 2020/1/23 - 19:33
  */
 public interface TeachingClassService {
-    void addTeachingClass(TeachingClass teachingClass);
+    void add(TeachingClass teachingClass);
 
-    void updateTeachingClass(TeachingClass teachingClass);
+    void update(TeachingClass teachingClass);
 
-    void deleteTeachingClassById(Integer id);
+    void delete(Integer id);
 
     List<TeachingClassVO> pageQuery(TeachingClassForm teachingClassForm, Query query);
 
     int pageQueryCount(TeachingClassForm teachingClassForm, Query query);
 
+    List<TeachingClass> getAll();
 }

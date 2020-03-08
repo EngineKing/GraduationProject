@@ -12,15 +12,15 @@ import java.util.List;
  * @Date 2020/1/15 - 20:37
  */
 public interface RoleDao {
-    void addRole(Role role);
+    void add(Role role);
 
-    Role getRoleById(@Param("roleId") Integer id);
+    Role get(@Param("roleId") Integer id);
 
-    void deleteRoleById(@Param("roleId") Integer id);
+    void delete(@Param("roleId") Integer id);
 
-    Role getRoleByName(@Param("roleName") String name);
+    Role getByName(@Param("roleName") String name);
 
-    void updateRole(Role role);
+    void update(Role role);
 
     List<Role> pageQuery(@Param("roleForm") RoleForm roleForm, @Param("query") Query query);
 

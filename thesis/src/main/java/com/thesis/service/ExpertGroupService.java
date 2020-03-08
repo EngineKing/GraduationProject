@@ -1,6 +1,7 @@
 package com.thesis.service;
 
 import com.thesis.entity.ExpertGroup;
+import com.thesis.entity.Teacher;
 import com.thesis.form.ExpertGroupForm;
 import com.thesis.utils.Query;
 import com.thesis.vo.ExpertGroupVO;
@@ -16,9 +17,11 @@ public interface ExpertGroupService {
 
     int pageQueryCount(ExpertGroupForm expertGroupForm, Query query);
 
-    void updateExpertGroup(ExpertGroup expertGroup);
+    void update(ExpertGroup expertGroup);
 
-    void deleteExpertGroupById(Integer id);
+    void delete(Integer id);
 
-    void addExpertGroup(ExpertGroup expertGroup);
+    void add(ExpertGroup expertGroup);
+
+    List<Teacher> getLeaders();
 }

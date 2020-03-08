@@ -1,26 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.thesis.dao.TeacherDao">
-    <insert id="addTeacher" parameterType="com.thesis.entity.Teacher" useGeneratedKeys="true" keyProperty="id">
+    <insert id="add" parameterType="com.thesis.entity.Teacher" useGeneratedKeys="true" keyProperty="id">
         insert into tb_teacher(
-            number, name, gender, age, phone, email, job_title, introduction, subject_id, department_id, user_id
+            number, name, gender, age, phone, email, job_title, introduction, subject_id, department_id, user_id, status
         ) value (
-            #{number}, #{name}, #{gender}, #{age}, #{phone}, #{email}, #{jobTitle}, #{introduction}, #{subjectId},#{departmentId},#{userId}
+            #{number}, #{name}, #{gender}, #{age}, #{phone}, #{email}, #{jobTitle}, #{introduction}, #{subjectId},#{departmentId},#{userId},#{status}
         )
     </insert>
-    <select id="getTeacherById" resultType="com.thesis.entity.Teacher">
-        select * from tb_teacher where id=#{teacherId}
+    <select id="get" resultType="com.thesis.entity.Teacher">
+        select * from tb_teacher where id=#{teacherId} and status = 0
     </select>
-    <delete id="deleteTeacherById">
-        delete from tb_teacher where id=#{teacherId}
-    </delete>
-    <update id="updateTeacher" parameterType="com.thesis.entity.Teacher">
-        update tb_teacher set name=#{name},gender=#{gender},age=#{age},phone=#{phone},email=#{email},job_title=#{jobTitle},
-        introduction=#{introduction}, subject_id=#{subjectId}, department_id=#{departmentId} where id=#{id}
-    </update>
     <select id="pageQuery" resultType="com.thesis.entity.Teacher">
         SELECT * FROM tb_teacher
-        <bind name="offset" value="(query.pn-1)*query.ps"></bind>
+        <if test="query.pn != null and query.ps != null">
+            <bind name="offset" value="(query.pn-1)*query.ps"></bind>
+        </if>
         <where>
             <if test="teacherForm.number != null and teacherForm.number != ''">
                 AND number LIKE CONCAT ('%',#{teacherForm.number},'%')
@@ -28,22 +23,29 @@
             <if test="teacherForm.name != null and teacherForm.name != ''">
                 AND name LIKE CONCAT ('%',#{teacherForm.name},'%')
             </if>
-            <if test="teacherForm.jobTitle != null and teacherForm.jobTitle != ''">
+            <if test="teacherForm.jobTitle != null">
                 AND job_title LIKE CONCAT ('%',#{teacherForm.jobTitle},'%')
             </if>
-            <if test="teacherForm.gender != null and teacherForm.gender != ''">
-                AND gender = #{teacherForm.gender}
-            </if>
-            <if test="teacherForm.subjectId != null and teacherForm.subjectId != ''">
+            <if test="teacherForm.subjectId != null">
                 AND subject_id = #{teacherForm.subjectId}
             </if>
-            <if test="teacherForm.departmentId null and teacherForm.departmentId != ''">
+            <if test="teacherForm.departmentId != null">
                 AND department_id = #{teacherForm.departmentId}
             </if>
+            and status = 0
         </where>
         ORDER BY id DESC
-        LIMIT #{offset},#{query.ps}
+        <if test="offset != null and query.ps != null">
+            LIMIT #{offset},#{query.ps}
+        </if>
     </select>
+    <update id="delete">
+        update tb_teacher set status = 1 where id=#{teacherId}
+    </update>
+    <update id="update" parameterType="com.thesis.entity.Teacher">
+        update tb_teacher set name=#{name},gender=#{gender},age=#{age},phone=#{phone},email=#{email},job_title=#{jobTitle},
+        introduction=#{introduction}, subject_id=#{subjectId}, department_id=#{departmentId}, status=#{status} where id=#{id}
+    </update>
     <select id="pageQueryCount" resultType="java.lang.Integer">
         SELECT Count(*) FROM tb_teacher
         <where>
@@ -53,18 +55,36 @@
             <if test="teacherForm.name != null and teacherForm.name != ''">
                 AND name LIKE CONCAT ('%',#{teacherForm.name},'%')
             </if>
-            <if test="teacherForm.jobTitle != null and teacherForm.jobTitle != ''">
+            <if test="teacherForm.jobTitle != null">
                 AND job_title LIKE CONCAT ('%',#{teacherForm.jobTitle},'%')
             </if>
-            <if test="teacherForm.gender != null and teacherForm.gender != ''">
-                AND gender = #{teacherForm.gender}
-            </if>
-            <if test="teacherForm.subjectId != null and teacherForm.subjectId != ''">
+            <if test="teacherForm.subjectId != null">
                 AND subject_id = #{teacherForm.subjectId}
             </if>
-            <if test="teacherForm.departmentId null and teacherForm.departmentId != ''">
+            <if test="teacherForm.departmentId != null">
                 AND department_id = #{teacherForm.departmentId}
             </if>
+            and status = 0
         </where>
+    </select>
+    <select id="getByNumber" resultType="com.thesis.entity.Teacher">
+        select * from tb_teacher where number=#{number} and status = 0
+    </select>
+    <select id="getAll" resultType="com.thesis.entity.Teacher">
+        select * from tb_teacher where status = 0
+    </select>
+    <select id="getLeaderIds" resultType="java.lang.Integer">
+        select id from tb_teacher where job_title > 1
+    </select>
+    <select id="getByUserId" resultType="com.thesis.entity.Teacher">
+        select * from tb_teacher where user_id = #{userId}
+    </select>
+    <select id="getListByIds" parameterType="java.util.List" resultType="com.thesis.entity.Teacher">
+        select * from tb_teacher
+        where
+            id in
+        <foreach collection="teacherIds" item="teacherId" open="(" close=")" separator=",">
+            #{teacherId}
+        </foreach>;
     </select>
 </mapper>

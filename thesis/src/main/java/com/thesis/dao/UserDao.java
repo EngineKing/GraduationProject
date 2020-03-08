@@ -12,9 +12,9 @@ import java.util.List;
  * @Date 2020/1/13 - 22:14
  */
 public interface UserDao {
-    void addUser(User user);
+    void add(User user);
 
-    User getUserById(@Param("userId") Integer id);
+    User get(@Param("userId") Integer id);
 
     List<User> getUsersByDepartmentId(@Param("departmentId") Integer id);
 
@@ -22,13 +22,11 @@ public interface UserDao {
 
     User getUserByAccount(@Param("account") String account);
 
-    void deleteUserById(@Param("userId") Integer id);
+    void delete(@Param("userId") Integer id);
 
-    void updateUser(User user);
+    void update(User user);
 
     List<User> pageQuery(@Param("userForm") UserForm userForm, @Param("query") Query query);
-
-    List<Integer> getRoleIdsByUserId(@Param("userId") Integer id);
 
     int pageQueryCount(@Param("userForm") UserForm userForm, @Param("query") Query query);
 }

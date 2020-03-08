@@ -13,6 +13,7 @@ import com.thesis.vo.DepartmentVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,10 +32,10 @@ public class DepartmentController {
      * @param department 部门信息
      * @return 是否成功
      */
-    @PostMapping("/addDepartment")
-    public R addDepartment(@RequestBody Department department) {
+    @PostMapping("/add")
+    public R add(@RequestBody Department department) {
         ValidatorUtils.validate(department, AddGroup.class);
-        departmentService.addDepartment(department);
+        departmentService.add(department);
         return R.ok();
     }
 
@@ -44,10 +45,10 @@ public class DepartmentController {
      * @param id 部门id
      * @return 是否成功
      */
-    @PostMapping("/deleteDepartment/{id}")
-    public R deleteDepartmentById(@PathVariable(name = "id") Integer id) {
+    @PostMapping("/delete")
+    public R delete(Integer id) {
         Assert.isNull(id, "id不能为空");
-        departmentService.deleteDepartmentById(id);
+        departmentService.delete(id);
         return R.ok();
     }
 
@@ -57,26 +58,30 @@ public class DepartmentController {
      * @param department 部门信息
      * @return 修改是否成功
      */
-    @PostMapping("/updateDepartment")
-    public R updateDepartment(@RequestBody Department department) {
+    @PostMapping("/update")
+    public R update(@RequestBody Department department) {
         ValidatorUtils.validate(department, AddGroup.class);
-        departmentService.updateDepartment(department);
+        departmentService.update(department);
         return R.ok();
     }
 
     /**
      * 分页查询
      * @param departmentForm 查询条件
-     * @param curPage 当前页
-     * @param limit 页面大小
      * @return 返回是否成功
      */
     @PostMapping("/pageQuery")
-    public R pageQuery(DepartmentForm departmentForm, Integer curPage, Integer limit){
-        Query query = new Query(curPage, limit);
+    public R pageQuery(@RequestBody DepartmentForm departmentForm){
+        Query query = new Query(departmentForm.getCurPage(), departmentForm.getLimit());
         List<DepartmentVO> departmentList = departmentService.pageQuery(departmentForm, query);
         int total = departmentService.pageQueryCount(departmentForm, query);
         Page departmentPage = new Page(query, total, departmentList);
         return R.ok().put("departmentPage", departmentPage);
+    }
+
+    @PostMapping("/getAll")
+    public R getAll(){
+        List<Department> departments = departmentService.getAll();
+        return R.ok().put("departments", departments);
     }
 }

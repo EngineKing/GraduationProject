@@ -20,8 +20,8 @@ import java.util.List;
  * @Date 2020/1/22 - 13:47
  */
 @Configuration
-public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
-    private final Logger logger = LoggerFactory.getLogger(WebMvcConfigurer.class);
+public class WebMvcConfig extends WebMvcConfigurerAdapter {
+    private final Logger logger = LoggerFactory.getLogger(WebMvcConfig.class);
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {

@@ -1,8 +1,10 @@
 package com.thesis.service;
 
 import com.thesis.entity.Topic;
+import com.thesis.form.StudentTopicForm;
 import com.thesis.form.TopicForm;
 import com.thesis.utils.Query;
+import com.thesis.vo.StudentVO;
 import com.thesis.vo.TopicVO;
 
 import java.util.List;
@@ -16,9 +18,15 @@ public interface TopicService {
 
     int pageQueryCount(TopicForm topicForm, Query query);
 
-    void updateTopic(Topic topic);
+    void update(Topic topic);
 
-    void deleteTopicById(Integer id);
+    void delete(Integer id);
 
-    void addTopic(Topic topic);
+    void add(Topic topic);
+
+//    List<Topic> getListByStudentId(StudentTopicForm studentTopicForm);
+
+    List<StudentVO> getStudentListByTopicId(Integer topicId);
+
+    List<StudentVO> getStudentListWithCondition(Integer topicId, String number, String name);
 }

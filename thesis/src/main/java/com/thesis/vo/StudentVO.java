@@ -8,17 +8,15 @@ import com.thesis.entity.*;
  */
 public class StudentVO {
     private Integer id;
+    private String account; // 用户账号
     private String number;
     private String name;
     private Integer gender;
-    private String nation;
-    private String hometown;
     private String idCardNo;
     private Integer type;
     private String phone;
     private String email;
-    private String position;
-    private Integer enrollmentDate;
+    private Long enrollmentDate;
     private Integer schoolSystem;
     private TeachingClass teachingClass;
     private Grade grade;
@@ -26,6 +24,7 @@ public class StudentVO {
     private Department department;
     private Teacher teacher;
     private User user;
+    private Integer status;
 
     public Integer getId() {
         return id;
@@ -33,6 +32,14 @@ public class StudentVO {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getAccount() {
+        return account;
+    }
+
+    public void setAccount(String account) {
+        this.account = account;
     }
 
     public String getNumber() {
@@ -57,22 +64,6 @@ public class StudentVO {
 
     public void setGender(Integer gender) {
         this.gender = gender;
-    }
-
-    public String getNation() {
-        return nation;
-    }
-
-    public void setNation(String nation) {
-        this.nation = nation;
-    }
-
-    public String getHometown() {
-        return hometown;
-    }
-
-    public void setHometown(String hometown) {
-        this.hometown = hometown;
     }
 
     public String getIdCardNo() {
@@ -107,19 +98,11 @@ public class StudentVO {
         this.email = email;
     }
 
-    public String getPosition() {
-        return position;
-    }
-
-    public void setPosition(String position) {
-        this.position = position;
-    }
-
-    public Integer getEnrollmentDate() {
+    public Long getEnrollmentDate() {
         return enrollmentDate;
     }
 
-    public void setEnrollmentDate(Integer enrollmentDate) {
+    public void setEnrollmentDate(Long enrollmentDate) {
         this.enrollmentDate = enrollmentDate;
     }
 
@@ -177,5 +160,13 @@ public class StudentVO {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

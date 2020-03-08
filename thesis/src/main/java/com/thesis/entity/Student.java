@@ -1,22 +1,22 @@
 package com.thesis.entity;
 
+import lombok.ToString;
+
 /**
  * @Author LeiPeng
  * @Date 2020/1/28 - 13:35
  */
+@ToString
 public class Student {
     private Integer id;
     private String number;
     private String name;
     private Integer gender;
-    private String nation;
-    private String hometown;
     private String idCardNo;
     private Integer type;
     private String phone;
     private String email;
-    private String position;
-    private Integer enrollmentDate;
+    private Long enrollmentDate;
     private Integer schoolSystem;
     private Integer classId;
     private Integer gradeId;
@@ -24,6 +24,30 @@ public class Student {
     private Integer departmentId;
     private Integer teacherId;
     private Integer userId;
+    private Integer status;
+
+    public Student() {
+    }
+
+    public Student(String number, String name, Integer gender, String idCardNo,
+                   Integer type, String phone, String email, Long enrollmentDate, Integer schoolSystem,
+                   Integer classId, Integer gradeId, Integer subjectId, Integer departmentId, Integer userId, Integer status) {
+        this.number = number;
+        this.name = name;
+        this.gender = gender;
+        this.idCardNo = idCardNo;
+        this.type = type;
+        this.phone = phone;
+        this.email = email;
+        this.enrollmentDate = enrollmentDate;
+        this.schoolSystem = schoolSystem;
+        this.classId = classId;
+        this.gradeId = gradeId;
+        this.subjectId = subjectId;
+        this.departmentId = departmentId;
+        this.userId = userId;
+        this.status = status;
+    }
 
     public Integer getId() {
         return id;
@@ -55,22 +79,6 @@ public class Student {
 
     public void setGender(Integer gender) {
         this.gender = gender;
-    }
-
-    public String getNation() {
-        return nation;
-    }
-
-    public void setNation(String nation) {
-        this.nation = nation;
-    }
-
-    public String getHometown() {
-        return hometown;
-    }
-
-    public void setHometown(String hometown) {
-        this.hometown = hometown;
     }
 
     public String getIdCardNo() {
@@ -105,19 +113,11 @@ public class Student {
         this.email = email;
     }
 
-    public String getPosition() {
-        return position;
-    }
-
-    public void setPosition(String position) {
-        this.position = position;
-    }
-
-    public Integer getEnrollmentDate() {
+    public Long getEnrollmentDate() {
         return enrollmentDate;
     }
 
-    public void setEnrollmentDate(Integer enrollmentDate) {
+    public void setEnrollmentDate(Long enrollmentDate) {
         this.enrollmentDate = enrollmentDate;
     }
 
@@ -175,5 +175,13 @@ public class Student {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

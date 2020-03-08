@@ -12,13 +12,13 @@ import java.util.List;
  * @Date 2020/1/13 - 22:13
  */
 public interface UserService {
-    void addUser(User user);
+    void add(User user);
 
-    User getUserById(Integer id);
+    User get(Integer id);
 
-    void deleteUserById(Integer id);
+    void delete(Integer id);
 
-    void updateUser(User user);
+    void update(User user);
 
     List<UserVO> pageQuery(UserForm userForm, Query query);
 

@@ -6,11 +6,10 @@ package com.thesis.form;
  */
 public class UserForm {
     private String account;
-    private int gender;
-    private int departmentId;
-    private int roleId;
-    private int curPage;
-    private int limit;
+    private Integer gender;
+    private Integer departmentId;
+    private Integer curPage;
+    private Integer limit;
 
     public String getAccount() {
         return account;
@@ -20,39 +19,31 @@ public class UserForm {
         this.account = account;
     }
 
-    public int getGender() {
+    public Integer getGender() {
         return gender;
     }
 
-    public void setGender(int gender) {
+    public void setGender(Integer gender) {
         this.gender = gender;
     }
 
-    public int getDepartmentId() {
+    public Integer getDepartmentId() {
         return departmentId;
     }
 
-    public void setDepartmentId(int departmentId) {
+    public void setDepartmentId(Integer departmentId) {
         this.departmentId = departmentId;
     }
 
-    public int getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(int roleId) {
-        this.roleId = roleId;
-    }
-
-    public int getCurPage() {
+    public Integer getCurPage() {
         return curPage;
     }
 
-    public void setCurPage(int curPage) {
+    public void setCurPage(Integer curPage) {
         this.curPage = curPage;
     }
 
-    public int getLimit() {
+    public Integer getLimit() {
         return limit;
     }
 

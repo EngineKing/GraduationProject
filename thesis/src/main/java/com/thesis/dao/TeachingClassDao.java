@@ -12,17 +12,19 @@ import java.util.List;
  * @Date 2020/1/23 - 19:32
  */
 public interface TeachingClassDao {
-    void addTeachingClass(TeachingClass teachingClass);
+    void add(TeachingClass teachingClass);
 
-    TeachingClass getTeachingClassById(@Param("teachingClassId") Integer id);
+    TeachingClass get(@Param("teachingClassId") Integer id);
 
-    void deleteTeachingClassById(@Param("teachingClassId") Integer id);
+    void delete(@Param("teachingClassId") Integer id);
 
-    void updateTeachingClass(TeachingClass teachingClass);
+    void update(TeachingClass teachingClass);
 
     List<TeachingClass> pageQuery(@Param("teachingClassForm") TeachingClassForm teachingClassForm, @Param("query") Query query);
 
     int pageQueryCount(@Param("teachingClassForm") TeachingClassForm teachingClassForm, @Param("query") Query query);
 
-    TeachingClass getTeachingClassByName(@Param("teachingClassName") String name);
+    TeachingClass getByName(@Param("teachingClassName") String name);
+
+    List<TeachingClass> getAll();
 }

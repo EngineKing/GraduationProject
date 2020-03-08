@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thesis.dao.TeacherTaskDao">
+    <insert id="add">
+        insert into tb_teacher_task (teacher_id, task_id) values (#{teacherId}, #{taskId});
+    </insert>
+    <select id="getTeacherIdByTaskId" resultType="java.lang.Integer">
+        select teacher_id from tb_teacher_task where task_id=#{taskId}
+    </select>
+    <delete id="deleteByTaskId">
+        delete from tb_teacher_task where task_id=#{taskId}
+    </delete>
+    <select id="query" resultType="com.thesis.entity.TeacherTask">
+        select * from tb_teacher_task where teacher_id=#{teacherId}
+    </select>
+</mapper>

@@ -32,10 +32,10 @@ public class SubjectController {
      * @param subject 学科信息
      * @return 是否成功
      */
-    @PostMapping("/addSubject")
-    public R addSubject(@RequestBody Subject subject) {
+    @PostMapping("/add")
+    public R add(@RequestBody Subject subject) {
         ValidatorUtils.validate(subject, AddGroup.class);
-        subjectService.addSubject(subject);
+        subjectService.add(subject);
         return R.ok();
     }
 
@@ -45,10 +45,10 @@ public class SubjectController {
      * @param id 学科id
      * @return 是否成功
      */
-    @PostMapping("/deleteSubjectById/{id}")
-    public R deleteSubjectById(@PathVariable(name = "id") Integer id) {
+    @PostMapping("/delete")
+    public R delete(Integer id) {
         Assert.isNull(id, "id不能为空");
-        subjectService.deleteSubjectById(id);
+        subjectService.delete(id);
         return R.ok();
     }
 
@@ -58,10 +58,10 @@ public class SubjectController {
      * @param subject 信息
      * @return 修改是否成功
      */
-    @PostMapping("/updateSubject")
-    public R updateSubject(@RequestBody Subject subject) {
+    @PostMapping("/update")
+    public R update(@RequestBody Subject subject) {
         ValidatorUtils.validate(subject, UpdateGroup.class);
-        subjectService.updateSubject(subject);
+        subjectService.update(subject);
         return R.ok();
     }
 
@@ -69,16 +69,24 @@ public class SubjectController {
      * 分页查询
      *
      * @param subjectForm 查询条件
-     * @param curPage     当前页
-     * @param limit       页面大小
      * @return 返回是否成功
      */
     @PostMapping("/pageQuery")
-    public R pageQuery(SubjectForm subjectForm, Integer curPage, Integer limit) {
-        Query query = new Query(curPage, limit);
+    public R pageQuery(@RequestBody SubjectForm subjectForm) {
+        Query query = new Query(subjectForm.getCurPage(), subjectForm.getLimit());
         List<SubjectVO> subjectVOList = subjectService.pageQuery(subjectForm, query);
         int total = subjectService.pageQueryCount(subjectForm, query);
         Page subjectPage = new Page(query, total, subjectVOList);
         return R.ok().put("subjectPage", subjectPage);
+    }
+
+    /**
+     * 获取学科信息
+     * @return
+     */
+    @PostMapping("/getAll")
+    public R getAll(){
+        List<Subject> subjects = subjectService.getAll();
+        return R.ok().put("subjects", subjects);
     }
 }

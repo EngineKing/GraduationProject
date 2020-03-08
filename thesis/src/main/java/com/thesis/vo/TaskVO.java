@@ -17,6 +17,7 @@ public class TaskVO {
     private Integer type;
     private Annex annex;
     private Task pTask;
+    private Integer status;
 
     public Integer getId() {
         return id;
@@ -88,5 +89,13 @@ public class TaskVO {
 
     public void setpTask(Task pTask) {
         this.pTask = pTask;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

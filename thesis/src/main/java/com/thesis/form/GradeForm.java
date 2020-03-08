@@ -6,8 +6,6 @@ package com.thesis.form;
  */
 public class GradeForm {
     private String name;
-    private Integer subjectId;
-    private Integer departmentId;
 
     public String getName() {
         return name;
@@ -17,19 +15,4 @@ public class GradeForm {
         this.name = name;
     }
 
-    public Integer getSubjectId() {
-        return subjectId;
-    }
-
-    public void setSubjectId(Integer subjectId) {
-        this.subjectId = subjectId;
-    }
-
-    public Integer getDepartmentId() {
-        return departmentId;
-    }
-
-    public void setDepartmentId(Integer departmentId) {
-        this.departmentId = departmentId;
-    }
 }

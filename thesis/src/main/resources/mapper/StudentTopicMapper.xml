@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thesis.dao.StudentTopicDao">
+    <insert id="add" parameterType="com.thesis.entity.StudentTopic" useGeneratedKeys="true" keyProperty="id">
+        insert into tb_student_topic(student_id, topic_id, is_tutor_agree) VALUES (#{studentId}, #{topicId}, #{isTutorAgree})
+    </insert>
+    <select id="getByStudentId" resultType="com.thesis.entity.StudentTopic">
+        select * from tb_student_topic where student_id=#{studentId}
+    </select>
+    <select id="getByTopicId" resultType="com.thesis.entity.StudentTopic">
+        select * from tb_student_topic where topic_id=#{topicId}
+    </select>
+    <update id="isAgree">
+        update tb_student_topic set is_tutor_agree=#{isTutorAgree} where student_id=#{studentId}
+    </update>
+    <select id="pageQuery" resultType="com.thesis.entity.StudentTopic">
+        select tb_student_topic.* from tb_student_topic
+        <bind name="offset" value="(query.pn-1)*query.ps"></bind>
+        INNER JOIN tb_student on tb_student.id = tb_student_topic.student_id
+        <if test="studentTopicForm.number != null and studentTopicForm.number != ''">
+            AND tb_student.number LIKE CONCAT ('%',#{studentTopicForm.number},'%')
+        </if>
+        <if test="studentTopicForm.name != null and studentTopicForm.name != ''">
+            AND tb_student.name LIKE CONCAT ('%',#{studentTopicForm.name},'%')
+        </if>
+        ORDER BY id DESC
+        LIMIT #{offset},#{query.ps}
+    </select>
+    <select id="pageQueryCount" resultType="java.lang.Integer">
+        select count(*) from tb_student_topic
+        INNER JOIN tb_student on tb_student.id = tb_student_topic.student_id
+        <if test="studentTopicForm.number != null and studentTopicForm.number != ''">
+            AND tb_student.number LIKE CONCAT ('%',#{studentTopicForm.number},'%')
+        </if>
+        <if test="studentTopicForm.name != null and studentTopicForm.name != ''">
+            AND tb_student.name LIKE CONCAT ('%',#{studentTopicForm.name},'%')
+        </if>
+    </select>
+    <delete id="deleteByStudentId">
+        delete from tb_student_topic where student_id = #{studentId}
+    </delete>
+</mapper>

@@ -9,6 +9,7 @@ public class Subject {
     private String name;
     private String description;
     private Integer departmentId;
+    private Integer status;
 
     public Integer getId() {
         return id;
@@ -40,5 +41,13 @@ public class Subject {
 
     public void setDepartmentId(Integer departmentId) {
         this.departmentId = departmentId;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

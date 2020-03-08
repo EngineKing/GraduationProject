@@ -1,28 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.thesis.dao.ExpertGroupDao">
-    <insert id="addExpertGroup" parameterType="com.thesis.entity.ExpertGroup" useGeneratedKeys="true" keyProperty="id">
-        insert into tb_expert_group(name, teacher_id) values(#{name}, #{teacherId})
+    <insert id="add" parameterType="com.thesis.entity.ExpertGroup" useGeneratedKeys="true" keyProperty="id">
+        insert into tb_expert_group(name, teacher_id, status) values(#{name}, #{teacherId}, #{status})
     </insert>
-    <select id="getExpertGroupById" resultType="com.thesis.entity.ExpertGroup">
-        select * from tb_expert_group where id=#{departmentId};
+    <select id="get" resultType="com.thesis.entity.ExpertGroup">
+        select * from tb_expert_group where id=#{departmentId} and status = 0
     </select>
-    <delete id="deleteExpertGroupById">
-        delete from tb_expert_group where id=#{departmentId}
-    </delete>
-    <update id="updateExpertGroup" parameterType="com.thesis.entity.ExpertGroup">
-        update tb_expert_group set name=#{name}, teacher_id=#{teacherId}
+    <update id="delete">
+        update tb_expert_group set status = 1 where id=#{departmentId}
+    </update>
+    <update id="update" parameterType="com.thesis.entity.ExpertGroup">
+        update tb_expert_group set name=#{name}, teacher_id=#{teacherId},status=0
     </update>
     <select id="pageQuery" resultType="com.thesis.entity.ExpertGroup">
-        SELECT * FROM tb_department
+        SELECT * FROM tb_expert_group
         <bind name="offset" value="(query.pn-1)*query.ps"></bind>
         <where>
             <if test="expertGroupForm.name != null and expertGroupForm.name != ''">
                 AND name LIKE CONCAT ('%',#{expertGroupForm.name},'%')
             </if>
-            <if test="expertGroupForm.teacherId != null and expertGroupForm.teacherId != ''">
+            <if test="expertGroupForm.teacherId != null">
                 AND teacher_id = #{expertGroupForm.teacherId}
             </if>
+            and status = 0
         </where>
         ORDER BY id DESC
         LIMIT #{offset},#{query.ps}
@@ -33,12 +34,16 @@
             <if test="expertGroupForm.name != null and expertGroupForm.name != ''">
                 AND name LIKE CONCAT ('%',#{expertGroupForm.name},'%')
             </if>
-            <if test="expertGroupForm.teacherId != null and expertGroupForm.teacherId != ''">
+            <if test="expertGroupForm.teacherId != null">
                 AND teacher_id = #{expertGroupForm.teacherId}
             </if>
+            and status = 0
         </where>
     </select>
-    <select id="getExpertGroupByName" resultType="com.thesis.entity.ExpertGroup">
-        select  * from tb_expert_group where name=#{expertGroupName}
+    <select id="getByName" resultType="com.thesis.entity.ExpertGroup">
+        select  * from tb_expert_group where name=#{expertGroupName} and status = 0
+    </select>
+    <select id="getLeaderIds" resultType="java.lang.Integer">
+        select teacher_id from tb_expert_group where status = 0
     </select>
 </mapper>

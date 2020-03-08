@@ -12,17 +12,23 @@ import java.util.List;
  * @Date 2020/1/26 - 21:47
  */
 public interface TaskDao {
-    void addTask(Task task);
+    void add(Task task);
 
-    Task getTaskById(@Param("taskId") Integer id);
+    Task get(@Param("taskId") Integer id);
 
-    void deleteTaskById(@Param("taskId") Integer id);
+    void delete(@Param("taskId") Integer id);
 
-    void updateTask(Task task);
+    void update(Task task);
 
     List<Task> pageQuery(@Param("taskForm") TaskForm taskForm, @Param("query") Query query);
 
     int pageQueryCount(@Param("taskForm") TaskForm taskForm, @Param("query") Query query);
 
-    Task getTaskByTitle(@Param("taskTitle") String title);
+    Task getByTitle(@Param("taskTitle") String title);
+
+    List<Task> getAll();
+
+    List<Task> getAllPTasks();
+
+    void updateAnnex(@Param("taskId") Integer taskId, @Param("annexId") Integer id);
 }

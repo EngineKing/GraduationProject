@@ -12,15 +12,23 @@ import java.util.List;
  * @Date 2020/1/28 - 14:17
  */
 public interface StudentDao {
-    void addStudent(Student student);
+    void add(Student student);
 
-    Student getStudentById(@Param("studentId") Integer id);
+    Student get(@Param("studentId") Integer id);
 
-    void deleteStudentById(@Param("studentId") Integer id);
+    void delete(@Param("studentId") Integer id);
 
-    void updateStudent(Student student);
+    void update(Student student);
 
     List<Student> pageQuery(@Param("studentForm") StudentForm studentForm, @Param("query") Query query);
 
     int pageQueryCount(@Param("studentForm") StudentForm studentForm, @Param("query") Query query);
+
+    Student getByNumber(@Param("number") String number);
+
+    Student getByUserId(@Param("userId") Integer id);
+
+    List<Student> getByTeacherId(@Param("teacherId") Integer teacherId);
+
+    List<Student> getListByIds(@Param("studentIds") List<Integer> sIds);
 }

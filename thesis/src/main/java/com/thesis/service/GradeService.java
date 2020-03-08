@@ -12,13 +12,15 @@ import java.util.List;
  * @Date 2020/1/23 - 14:33
  */
 public interface GradeService {
-    void addGrade(Grade grade);
+    void add(Grade grade);
 
-    void updateGrade(Grade grade);
+//    void updateGrade(Grade grade);
+//
+//    void deleteGradeById(Integer id);
+//
+//    List<GradeVO> pageQuery(GradeForm gradeForm, Query query);
+//
+//    int pageQueryCount(GradeForm gradeForm, Query query);
 
-    void deleteGradeById(Integer id);
-
-    List<GradeVO> pageQuery(GradeForm gradeForm, Query query);
-
-    int pageQueryCount(GradeForm gradeForm, Query query);
+    List<Grade> getAll();
 }

@@ -5,16 +5,24 @@ package com.thesis.entity;
  * @Date 2020/1/13 - 22:01
  */
 public class Department {
-    private int id;
+    private Integer id;
     private String name;
-    private int pid;
+    private Integer pid;
     private String description;
+    private Integer status;
 
-    public int getId() {
+    public Department() {
+    }
+
+    public Department(String name) {
+        this.name = name;
+    }
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -26,11 +34,11 @@ public class Department {
         this.name = name;
     }
 
-    public int getPid() {
+    public Integer getPid() {
         return pid;
     }
 
-    public void setPid(int pid) {
+    public void setPid(Integer pid) {
         this.pid = pid;
     }
 
@@ -40,5 +48,13 @@ public class Department {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

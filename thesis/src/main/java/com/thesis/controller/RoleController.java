@@ -1,5 +1,6 @@
 package com.thesis.controller;
 
+import com.thesis.entity.Department;
 import com.thesis.entity.Role;
 import com.thesis.form.RoleForm;
 import com.thesis.service.RoleService;
@@ -31,10 +32,10 @@ public class RoleController {
      * @param role 角色
      * @return 新增是否成功
      */
-    @PostMapping("/addRole")
-    public R addRole(@RequestBody Role role) {
+    @PostMapping("/add")
+    public R add(@RequestBody Role role) {
         ValidatorUtils.validate(role, AddGroup.class);
-        roleService.addRole(role);
+        roleService.add(role);
         return R.ok();
     }
 
@@ -44,10 +45,10 @@ public class RoleController {
      * @param id 部门id
      * @return 删除是否成功
      */
-    @PostMapping("/deleteRoleById/{id}")
-    public R deleteRoleById(@PathVariable(name = "id") Integer id) {
+    @PostMapping("/delete")
+    public R delete(Integer id) {
         Assert.isNull(id, "id不能为空");
-        roleService.deleteRoleById(id);
+        roleService.delete(id);
         return R.ok();
     }
 
@@ -58,10 +59,10 @@ public class RoleController {
      * @param role 角色信息
      * @return 更新是否成功
      */
-    @PostMapping("/updateRole")
-    public R updateRole(@RequestBody Role role) {
+    @PostMapping("/update")
+    public R update(@RequestBody Role role) {
         ValidatorUtils.validate(role, AddGroup.class);
-        roleService.updateRole(role);
+        roleService.update(role);
         return R.ok();
     }
 
@@ -69,16 +70,20 @@ public class RoleController {
      * 分页查询
      *
      * @param roleForm 查询条件类
-     * @param curPage  当前页
-     * @param limit    页面大小
      * @return 页面信息
      */
     @PostMapping("/pageQuery")
-    public R pageQuery(RoleForm roleForm, Integer curPage, Integer limit) {
-        Query query = new Query(curPage, limit);
+    public R pageQuery(@RequestBody RoleForm roleForm) {
+        Query query = new Query(roleForm.getCurPage(), roleForm.getLimit());
         List<RoleVO> roleList = roleService.pageQuery(roleForm, query);
         int total = roleService.pageQueryCount(roleForm, query);
         Page rolePage = new Page(query, total, roleList);
         return R.ok().put("rolePage", rolePage);
+    }
+
+    @PostMapping("/getAll")
+    public R getAll(){
+        List<Role> roles = roleService.getAll();
+        return R.ok().put("roles", roles);
     }
 }

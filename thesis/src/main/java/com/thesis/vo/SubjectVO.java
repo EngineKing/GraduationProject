@@ -13,6 +13,7 @@ public class SubjectVO {
     private String name;
     private String description;
     private Department department;
+    private Integer status;
 
     public Integer getId() {
         return id;
@@ -44,5 +45,13 @@ public class SubjectVO {
 
     public void setDepartment(Department department) {
         this.department = department;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

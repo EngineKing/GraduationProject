@@ -3,6 +3,7 @@ package com.thesis.service.impl;
 import com.thesis.dao.ExpertGroupDao;
 import com.thesis.dao.TeacherDao;
 import com.thesis.entity.ExpertGroup;
+import com.thesis.entity.Teacher;
 import com.thesis.exception.RRException;
 import com.thesis.form.ExpertGroupForm;
 import com.thesis.service.ExpertGroupService;
@@ -35,7 +36,10 @@ public class ExpertGroupServiceImpl implements ExpertGroupService {
             ExpertGroupVO expertGroupVO = new ExpertGroupVO();
             expertGroupVO.setId(expertGroup.getId());
             expertGroupVO.setName(expertGroup.getName());
-            expertGroupVO.setTeacher(teacherDao.getTeacherById(expertGroup.getTeacherId()));
+//            expertGroupVO.setTeacher(teacherDao.get(expertGroup.getTeacherId()));
+            expertGroupVO.setTeacher(expertGroup.getTeacherId() == null ? new Teacher("无") :
+                    teacherDao.get(expertGroup.getTeacherId()));
+            expertGroupVO.setStatus(expertGroup.getStatus());
             expertGroupVOList.add(expertGroupVO);
         }
         return expertGroupVOList;
@@ -47,23 +51,37 @@ public class ExpertGroupServiceImpl implements ExpertGroupService {
     }
 
     @Override
-    public void updateExpertGroup(ExpertGroup expertGroup) {
-        ExpertGroup foundExpertGroup = expertGroupDao.getExpertGroupByName(expertGroup.getName());
-        if (foundExpertGroup != null && foundExpertGroup.getId() != expertGroup.getId()) throw new RRException("更新专家组失败，该专家组名称已经存在");
-        expertGroupDao.updateExpertGroup(expertGroup);
+    public void update(ExpertGroup expertGroup) {
+        ExpertGroup foundExpertGroup = expertGroupDao.getByName(expertGroup.getName());
+        if (foundExpertGroup != null && foundExpertGroup.getId() != expertGroup.getId())
+            throw new RRException("更新专家组失败，该专家组名称已经存在");
+        expertGroupDao.update(expertGroup);
     }
 
     @Override
-    public void deleteExpertGroupById(Integer id) {
-        ExpertGroup foundExpertGroup = expertGroupDao.getExpertGroupById(id);
+    public void delete(Integer id) {
+        ExpertGroup foundExpertGroup = expertGroupDao.get(id);
         if (foundExpertGroup == null) throw new RRException("删除专家组失败，该专家组不存在");
-        expertGroupDao.deleteExpertGroupById(id);
+        expertGroupDao.delete(id);
     }
 
     @Override
-    public void addExpertGroup(ExpertGroup expertGroup) {
-        ExpertGroup foundExpertGroup = expertGroupDao.getExpertGroupByName(expertGroup.getName());
+    public void add(ExpertGroup expertGroup) {
+        ExpertGroup foundExpertGroup = expertGroupDao.getByName(expertGroup.getName());
         if (foundExpertGroup != null) throw new RRException("新增专家组失败，该专家组名称已经存在");
-        expertGroupDao.addExpertGroup(expertGroup);
+        expertGroupDao.add(expertGroup);
+    }
+
+    @Override
+    public List<Teacher> getLeaders() {
+        List<Integer> leaders = teacherDao.getLeaderIds();
+        List<Integer> foundLeaderIds = expertGroupDao.getLeaderIds();
+        leaders.removeAll(foundLeaderIds);
+        List<Teacher> result = new ArrayList<>();
+        for (int i = 0; i < leaders.size(); i++) {
+            Teacher teacher = teacherDao.get(leaders.get(i));
+            result.add(teacher);
+        }
+        return result;
     }
 }

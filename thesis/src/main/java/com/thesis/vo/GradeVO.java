@@ -10,8 +10,6 @@ import com.thesis.entity.Subject;
 public class GradeVO {
     private Integer id;
     private String name;
-    private Subject subject;
-    private Department department;
 
     public Integer getId() {
         return id;
@@ -27,21 +25,5 @@ public class GradeVO {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Subject getSubject() {
-        return subject;
-    }
-
-    public void setSubject(Subject subject) {
-        this.subject = subject;
-    }
-
-    public Department getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(Department department) {
-        this.department = department;
     }
 }

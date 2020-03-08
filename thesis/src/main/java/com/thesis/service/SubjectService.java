@@ -12,13 +12,15 @@ import java.util.List;
  * @Date 2020/1/23 - 9:19
  */
 public interface SubjectService {
-    void addSubject(Subject subject);
+    void add(Subject subject);
 
-    void deleteSubjectById(Integer id);
+    void delete(Integer id);
 
-    void updateSubject(Subject subject);
+    void update(Subject subject);
 
     List<SubjectVO> pageQuery(SubjectForm subjectForm, Query query);
 
     int pageQueryCount(SubjectForm subjectForm, Query query);
+
+    List<Subject> getAll();
 }

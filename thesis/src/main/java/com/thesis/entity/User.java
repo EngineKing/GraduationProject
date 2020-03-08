@@ -12,9 +12,27 @@ public class User {
     private String email;
     private String phone;
     private Long createTime;
+    private Long updateTime;
     private Integer departmentId;
     private Integer loginTimes;
     private Integer status;
+
+    public User() {
+    }
+
+    public User(String account, String password, Integer gender, String email, String phone,
+                Long createTime, Long updateTime, Integer departmentId, Integer loginTimes, Integer status) {
+        this.account = account;
+        this.password = password;
+        this.gender = gender;
+        this.email = email;
+        this.phone = phone;
+        this.createTime = createTime;
+        this.updateTime = updateTime;
+        this.departmentId = departmentId;
+        this.loginTimes = loginTimes;
+        this.status = status;
+    }
 
     public Integer getId() {
         return id;
@@ -94,5 +112,13 @@ public class User {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public Long getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Long updateTime) {
+        this.updateTime = updateTime;
     }
 }

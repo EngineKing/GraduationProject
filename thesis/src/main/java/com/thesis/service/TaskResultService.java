@@ -1,11 +1,16 @@
 package com.thesis.service;
 
+import com.thesis.entity.Annex;
 import com.thesis.entity.TaskResult;
 import com.thesis.form.TaskResultForm;
 import com.thesis.utils.Query;
+import com.thesis.vo.StudentResultVO;
 import com.thesis.vo.TaskResultVO;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author LeiPeng
@@ -16,9 +21,21 @@ public interface TaskResultService {
 
     List<TaskResultVO> pageQuery(TaskResultForm taskResultForm, Query query);
 
-    void updateTaskResult(TaskResult taskResult);
+    void delete(Integer id);
 
-    void deleteTaskResultById(Integer id);
+    void add(TaskResult taskResult);
 
-    void addTaskResult(TaskResult taskResult);
+    Annex getAnnex(Integer taskResultId);
+
+    void pass(Integer taskResultId);
+
+    void fail(Integer taskResultId);
+
+    Workbook export(String taskResultIds);
+
+    Workbook allExport(TaskResultForm taskResultForm);
+
+//    List<StudentResultVO> getTaskResult(Integer taskId);
+//
+//    List<StudentResultVO> getTaskResultWithCondition(Integer taskId, String number, String name);
 }

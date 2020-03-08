@@ -7,11 +7,12 @@ package com.thesis.form;
 public class StudentForm {
     private String number;
     private String name;
-    private Integer gender;
     private Integer type;
-    private Integer enrollmentDate;
+//    private Integer enrollmentDate;
+    private Integer subjectId;
     private Integer classId;
-    private Integer teacherId;
+    private Integer curPage;
+    private Integer limit;
 
     public String getNumber() {
         return number;
@@ -29,14 +30,6 @@ public class StudentForm {
         this.name = name;
     }
 
-    public Integer getGender() {
-        return gender;
-    }
-
-    public void setGender(Integer gender) {
-        this.gender = gender;
-    }
-
     public Integer getType() {
         return type;
     }
@@ -45,13 +38,13 @@ public class StudentForm {
         this.type = type;
     }
 
-    public Integer getEnrollmentDate() {
-        return enrollmentDate;
-    }
-
-    public void setEnrollmentDate(Integer enrollmentDate) {
-        this.enrollmentDate = enrollmentDate;
-    }
+//    public Integer getEnrollmentDate() {
+//        return enrollmentDate;
+//    }
+//
+//    public void setEnrollmentDate(Integer enrollmentDate) {
+//        this.enrollmentDate = enrollmentDate;
+//    }
 
     public Integer getClassId() {
         return classId;
@@ -61,11 +54,27 @@ public class StudentForm {
         this.classId = classId;
     }
 
-    public Integer getTeacherId() {
-        return teacherId;
+    public Integer getSubjectId() {
+        return subjectId;
     }
 
-    public void setTeacherId(Integer teacherId) {
-        this.teacherId = teacherId;
+    public void setSubjectId(Integer subjectId) {
+        this.subjectId = subjectId;
+    }
+
+    public Integer getCurPage() {
+        return curPage;
+    }
+
+    public void setCurPage(Integer curPage) {
+        this.curPage = curPage;
+    }
+
+    public Integer getLimit() {
+        return limit;
+    }
+
+    public void setLimit(Integer limit) {
+        this.limit = limit;
     }
 }

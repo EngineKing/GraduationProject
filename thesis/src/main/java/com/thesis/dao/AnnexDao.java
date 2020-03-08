@@ -8,5 +8,7 @@ import org.apache.ibatis.annotations.Param;
  * @Date 2020/1/27 - 10:47
  */
 public interface AnnexDao {
-    Annex getAnnexById(@Param("annexId") Integer id);
+    Annex get(@Param("annexId") Integer id);
+
+    void add(Annex annex);
 }

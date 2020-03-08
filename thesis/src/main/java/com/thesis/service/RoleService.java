@@ -13,13 +13,15 @@ import java.util.List;
  * @Date 2020/1/15 - 20:36
  */
 public interface RoleService {
-    void addRole(Role role);
+    void add(Role role);
 
-    void deleteRoleById(Integer id);
+    void delete(Integer id);
 
-    void updateRole(Role role);
+    void update(Role role);
 
     List<RoleVO> pageQuery(RoleForm roleForm, Query query);
 
     int pageQueryCount(RoleForm roleForm, Query query);
+
+    List<Role> getAll();
 }

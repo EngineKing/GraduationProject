@@ -31,10 +31,10 @@ public class TeachingClassController {
      * @param teachingClass 班级信息
      * @return 是否成功
      */
-    @PostMapping("/addTeachingClass")
-    public R addTeachingClass(@RequestBody TeachingClass teachingClass) {
+    @PostMapping("/add")
+    public R add(@RequestBody TeachingClass teachingClass) {
         ValidatorUtils.validate(teachingClass, AddGroup.class);
-        teachingClassService.addTeachingClass(teachingClass);
+        teachingClassService.add(teachingClass);
         return R.ok();
     }
 
@@ -44,10 +44,10 @@ public class TeachingClassController {
      * @param id 班级id
      * @return 是否成功
      */
-    @PostMapping("/deleteDepartment/{id}")
-    public R deleteTeachingClassById(@PathVariable(name = "id") Integer id) {
+    @PostMapping("/delete")
+    public R delete(Integer id) {
         Assert.isNull(id, "id不能为空");
-        teachingClassService.deleteTeachingClassById(id);
+        teachingClassService.delete(id);
         return R.ok();
     }
 
@@ -57,26 +57,30 @@ public class TeachingClassController {
      * @param teachingClass 班级信息
      * @return 修改是否成功
      */
-    @PostMapping("/updateTeachingClass")
-    public R updateTeachingClass(@RequestBody TeachingClass teachingClass) {
+    @PostMapping("/update")
+    public R update(@RequestBody TeachingClass teachingClass) {
         ValidatorUtils.validate(teachingClass, AddGroup.class);
-        teachingClassService.updateTeachingClass(teachingClass);
+        teachingClassService.update(teachingClass);
         return R.ok();
     }
 
     /**
      * 分页查询
      * @param teachingClassForm 查询条件
-     * @param curPage 当前页
-     * @param limit 页面大小
      * @return 返回是否成功
      */
     @PostMapping("/pageQuery")
-    public R pageQuery(TeachingClassForm teachingClassForm, Integer curPage, Integer limit){
-        Query query = new Query(curPage, limit);
+    public R pageQuery(@RequestBody TeachingClassForm teachingClassForm){
+        Query query = new Query(teachingClassForm.getCurPage(), teachingClassForm.getLimit());
         List<TeachingClassVO> teachingClassVOList = teachingClassService.pageQuery(teachingClassForm, query);
         int total = teachingClassService.pageQueryCount(teachingClassForm, query);
         Page teachingClassPage = new Page(query, total, teachingClassVOList);
         return R.ok().put("teachingClassPage", teachingClassPage);
+    }
+
+    @PostMapping("/getAll")
+    public R getAll(){
+        List<TeachingClass> teachingClasses = teachingClassService.getAll();
+        return R.ok().put("teachingClasses", teachingClasses);
     }
 }

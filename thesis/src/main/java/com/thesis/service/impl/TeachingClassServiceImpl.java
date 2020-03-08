@@ -36,25 +36,27 @@ public class TeachingClassServiceImpl implements TeachingClassService {
 
 
     @Override
-    public void addTeachingClass(TeachingClass teachingClass) {
-        TeachingClass foundTeachingClass = teachingClassDao.getTeachingClassByName(teachingClass.getName());
+    public void add(TeachingClass teachingClass) {
+        TeachingClass foundTeachingClass = teachingClassDao.getByName(teachingClass.getName());
         if (foundTeachingClass != null) throw new RRException("新增班级失败，该班级名称已存在");
-        teachingClassDao.addTeachingClass(teachingClass);
+        teachingClass.setDepartmentId(subjectDao.get(teachingClass.getSubjectId()).getDepartmentId());
+        teachingClassDao.add(teachingClass);
     }
 
     @Override
-    public void updateTeachingClass(TeachingClass teachingClass) {
-        TeachingClass foundTeachingClass = teachingClassDao.getTeachingClassByName(teachingClass.getName());
+    public void update(TeachingClass teachingClass) {
+        TeachingClass foundTeachingClass = teachingClassDao.getByName(teachingClass.getName());
         if (foundTeachingClass != null && foundTeachingClass.getId() != teachingClass.getId()) throw new RRException("更新班级失败，该班级名称已存在");
-        teachingClassDao.updateTeachingClass(teachingClass);
+        teachingClass.setDepartmentId(subjectDao.get(teachingClass.getSubjectId()).getDepartmentId());
+        teachingClassDao.update(teachingClass);
     }
 
     @Override
-    public void deleteTeachingClassById(Integer id) {
-        TeachingClass foundTeachingClass = teachingClassDao.getTeachingClassById(id);
+    public void delete(Integer id) {
+        TeachingClass foundTeachingClass = teachingClassDao.get(id);
         if (foundTeachingClass == null) throw new RRException("删除班级失败，该班级不存在");
         // 还要判断该班级下是否存在学生
-        teachingClassDao.deleteTeachingClassById(id);
+        teachingClassDao.delete(id);
     }
 
     @Override
@@ -66,9 +68,10 @@ public class TeachingClassServiceImpl implements TeachingClassService {
             TeachingClass teachingClass = teachingClassList.get(i);
             teachingClassVO.setId(teachingClass.getId());
             teachingClassVO.setName(teachingClass.getName());
-            teachingClassVO.setGrade(gradeDao.getGradeById(teachingClass.getGradeId()));
-            teachingClassVO.setSubject(subjectDao.getSubjectById(teachingClass.getSubjectId()));
-            teachingClassVO.setDepartment(departmentDao.getDepartmentById(teachingClass.getDepartmentId()));
+            teachingClassVO.setGrade(gradeDao.get(teachingClass.getGradeId()));
+            teachingClassVO.setSubject(subjectDao.get(teachingClass.getSubjectId()));
+            teachingClassVO.setDepartment(departmentDao.get(teachingClass.getDepartmentId()));
+            teachingClassVO.setStatus(teachingClass.getStatus());
             teachingClassVOList.add(teachingClassVO);
         }
         return teachingClassVOList;
@@ -77,5 +80,10 @@ public class TeachingClassServiceImpl implements TeachingClassService {
     @Override
     public int pageQueryCount(TeachingClassForm teachingClassForm, Query query) {
         return teachingClassDao.pageQueryCount(teachingClassForm, query);
+    }
+
+    @Override
+    public List<TeachingClass> getAll() {
+        return teachingClassDao.getAll();
     }
 }

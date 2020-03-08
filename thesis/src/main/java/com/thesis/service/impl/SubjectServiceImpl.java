@@ -32,10 +32,10 @@ public class SubjectServiceImpl implements SubjectService {
      * @param subject 学科信息
      */
     @Override
-    public void addSubject(Subject subject) {
-        Subject foundSubject = subjectDao.getSubjectByName(subject.getName());
+    public void add(Subject subject) {
+        Subject foundSubject = subjectDao.getByName(subject.getName());
         if (foundSubject != null) throw new RRException("新增学科失败，该学科名称已经存在");
-        subjectDao.addSubject(subject);
+        subjectDao.add(subject);
     }
 
     /**
@@ -44,11 +44,11 @@ public class SubjectServiceImpl implements SubjectService {
      * @param id 学科id
      */
     @Override
-    public void deleteSubjectById(Integer id) {
-        Subject foundSubject = subjectDao.getSubjectById(id);
+    public void delete(Integer id) {
+        Subject foundSubject = subjectDao.get(id);
         if (foundSubject == null) throw new RRException("删除学科失败，该学科不存在");
 //        List<Student> studentList = studentDao.getStudentsBySubjectId(id);
-        subjectDao.deleteSubjectById(id);
+        subjectDao.delete(id);
     }
 
     /**
@@ -57,10 +57,10 @@ public class SubjectServiceImpl implements SubjectService {
      * @param subject 学科信息
      */
     @Override
-    public void updateSubject(Subject subject) {
-        Subject foundSubject = subjectDao.getSubjectByName(subject.getName());
+    public void update(Subject subject) {
+        Subject foundSubject = subjectDao.getByName(subject.getName());
         if (foundSubject != null && foundSubject.getId() != subject.getId()) throw new RRException("更新学科失败，该学科名称已经存在");
-        subjectDao.updateSubject(subject);
+        subjectDao.update(subject);
     }
 
     /**
@@ -80,7 +80,8 @@ public class SubjectServiceImpl implements SubjectService {
             subjectVO.setId(subject.getId());
             subjectVO.setName(subject.getName());
             subjectVO.setDescription(subject.getDescription());
-            subjectVO.setDepartment(departmentDao.getDepartmentById(subject.getDepartmentId()));
+            subjectVO.setDepartment(departmentDao.get(subject.getDepartmentId()));
+            subjectVO.setStatus(subject.getStatus());
             subjectVOList.add(subjectVO);
         }
         return subjectVOList;
@@ -96,5 +97,10 @@ public class SubjectServiceImpl implements SubjectService {
     @Override
     public int pageQueryCount(SubjectForm subjectForm, Query query) {
         return subjectDao.pageQueryCount(subjectForm, query);
+    }
+
+    @Override
+    public List<Subject> getAll() {
+        return subjectDao.getAll();
     }
 }

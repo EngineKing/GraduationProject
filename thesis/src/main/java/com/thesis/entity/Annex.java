@@ -1,44 +1,26 @@
 package com.thesis.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * @Author LeiPeng
  * @Date 2020/1/26 - 21:52
  */
+@Getter
+@Setter
 public class Annex {
     private Integer id;
     private String title;
     private String url;
     private String remark;
 
-    public Integer getId() {
-        return id;
+    public Annex() {
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
+    public Annex(String title, String url, String remark) {
         this.title = title;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
         this.url = url;
-    }
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
         this.remark = remark;
     }
 }
